@@ -1,19 +1,33 @@
 CSE 331 Homework 3.  Answers to Written questions.
 Edit this file to supply your answers.
 
-Name:  <replace this with your name>
+Name:  Julian Gallegos
 
 Problem 6.
 
 (a)
-
+It failed the test because an illegal argument is supposed to be an input that is less than 0
+We fixed this by setting the case "n <= 0" to "n < 0"
 
 (b)
-
+Failed because base case is supposed to cover n = 0 and n = 1, but it covers n = 2 as well.
+Fixed by setting "n <= 2" to "n < 2"
 
 (c)
-
+Failed because inductive case is supposed to add the sum of the two previous terms, but insteads subtracts
+fixed by changing the "-" sign to a "+" sign.
 
 Problem 7. 
 
-<replace this line with your answers>
+Ball.java's getVolume method did not return the volume value, and instead returned 0,
+fixed this by changing the return statement, was:
+return 0;
+
+now is:
+return this.volume;
+
+Also had an issue with the Ball constructor, which set its parameter to the value "volume" in the Ball object.
+The parameter for the constructor is "volume," however the value in Ball object is also volume, and within the
+constructor we have the statement "volume = volume" which does not distinguish between the parameter and the
+object value, so changed that statement to the following to fix it:
+this.volume = volume;
