@@ -14,11 +14,12 @@ Failed because base case is supposed to cover n = 0 and n = 1, but it covers n =
 Fixed by setting "n <= 2" to "n < 2"
 
 (c)
-Failed because inductive case is supposed to add the sum of the two previous terms, but insteads subtracts
+Failed because inductive case is supposed to add the sum of the two previous terms, but instead subtracts
 fixed by changing the "-" sign to a "+" sign.
 
 Problem 7. 
 
+Q1)
 Ball.java's getVolume method did not return the volume value, and instead returned 0,
 fixed this by changing the return statement, was:
 return 0;
@@ -31,3 +32,8 @@ The parameter for the constructor is "volume," however the value in Ball object 
 constructor we have the statement "volume = volume" which does not distinguish between the parameter and the
 object value, so changed that statement to the following to fix it:
 this.volume = volume;
+
+Q2)
+Approach 2 does require that we store an extra variable that stays until the BallContainer object is unused/
+removed (or when whatever program it is used in terminates), but it may also save more time if getVolume is
+frequently called. Overall it seems better.
