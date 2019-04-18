@@ -58,7 +58,7 @@ public class BallContainer implements Iterable<Ball> {
      */
     public boolean add(Ball b) {
         // Your code goes here.  Remove the exception after you're done.
-        if(this.contents.contains(b)) {
+        if (this.contents.contains(b)) {
             return false;
         }
         this.contents.add(b);
@@ -80,7 +80,7 @@ public class BallContainer implements Iterable<Ball> {
      */
     public boolean remove(Ball b) {
         // Your code goes here.  Remove the exception after you're done.
-        if(this.contents.contains(b)) {
+        if (this.contents.contains(b)) {
             this.contents.remove(b);
             this.totalVolume -= b.getVolume();
             return true;
@@ -122,7 +122,7 @@ public class BallContainer implements Iterable<Ball> {
      * false, otherwise.
      */
     public boolean contains(Ball b) {
-        if(this.contents.contains(b)) {
+        if (this.contents.contains(b)) {
             return true;
         }
         return false;
