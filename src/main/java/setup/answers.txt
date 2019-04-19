@@ -37,3 +37,11 @@ Q2)
 Approach 2 does require that we store an extra variable that stays until the BallContainer object is unused/
 removed (or when whatever program it is used in terminates), but it may also save more time if getVolume is
 frequently called. Overall it seems better.
+
+Q3)
+I believe there are two clear ways to sort the balls from smallest volume to largest.
+The program can sort every time getBallsFromSmallest is called, or the program can
+sort the volume of the balls when they are being added or removed. The the program
+calls the add and remove methods often, and getBallsFromSmallest less often, the
+former approach would be more efficient. The latter approach is more efficient if
+getBallsFromSmallest is called more often.

@@ -5,6 +5,10 @@ package setup;
 
 import java.lang.Iterable;
 import java.util.Iterator;
+import java.util.Collections;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This is a container can be used to contain Balls. The key
@@ -18,16 +22,28 @@ public class Box implements Iterable<Ball> {
      */
     private BallContainer ballContainer;
     /**
-     * Stores the max volume for Box, used to make sure volume does not exceed
-     * max volume when add is called.
+     * stores the max volume for Box, used to make sure volume
+     * does not exceed max volume when add is called
      */
     private double maxVolume;
+    /**
+     * map uses volume of a ball as a key to the ball
+     */
+    private Map<Double, Ball> volToBall;
+    /**
+     * array list that stores the volumes inside a box
+     * in a sorted order
+     */
+    private ArrayList<Double> sortedVol;
     /**
      * Constructor that creates a new box.
      * @param maxVolume Total volume of balls that this box can contain.
      */
     public Box(double maxVolume) {
         this.maxVolume = maxVolume;
+        this.ballContainer = new BallContainer();
+        this.sortedVol = new ArrayList<Double>();
+        this.volToBall = new HashMap<Double, Ball>();
     }
 
     /**
@@ -60,6 +76,8 @@ public class Box implements Iterable<Ball> {
             return false;
         }
         if (this.ballContainer.add(b) == true) {
+            sortedVol.add(b.getVolume());
+            volToBall.put(b.getVolume(), b);
             return true;
         }
         return false;
@@ -73,8 +91,12 @@ public class Box implements Iterable<Ball> {
      * ascending size.
      */
     public Iterator<Ball> getBallsFromSmallest() {
-        // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+        Collections.sort(sortedVol);
+        ArrayList<Ball> sortedBox = new ArrayList<Ball>();
+        for (int i = 0; i < sortedVol.size(); i++) {
+            sortedBox.add(volToBall.get(sortedVol.get(i)));
+        }
+        return sortedBox.iterator();
     }
 
     /**
@@ -115,6 +137,8 @@ public class Box implements Iterable<Ball> {
      */
     public void clear() {
         ballContainer.clear();
+        volToBall.clear();
+        sortedVol.clear();
     }
 
     /**
