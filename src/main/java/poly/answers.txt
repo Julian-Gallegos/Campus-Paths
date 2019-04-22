@@ -1,11 +1,31 @@
 CSE 331 Homework 4.  Answers to written questions.
 Edit this file to supply your answers.
 
-Name:  <replace this with your name>
+Name:  Julian Gallegos
 
 Problem 0.
 
 (a)
+r = p * q:
+    // Let f be an array of polynomials gathered through multiplication of terms in p and q.
+    set f[] = array of size equal to number of terms in p
+    set index = 0
+    {Inv: f = {p0*q0+p0*q1+ ... +p0*q(i-1), ... , p(i-1)*q0+ ... +p(i-1)*q(i-1)},
+            where pj is the jth term in p and qk is the kth term in q}
+    foreach term, tp, in p:
+        {Inv: f[index] = tp*q0 + tp*q1 + ... + tp*q(i-1), where qk is the kth term in q}
+        foreach term tq, in q:
+            add the product of tp and tq to f[index].
+            // for getting product of two terms, Coefficient of each term is multiplied together,
+            // degree of each term is added together.
+            // as list expands through adding products, each term should have a different degree,
+            // unless the input polynomials had unsimplified terms, in which case simplification
+            // would be needed here.
+        index = index + 1
+    set r = f[0] by making a term-by-term copy of all items in f[0] to r
+    {Inv: r = f[0] + f[1] + ... + f[i-1], where f[j] is the jth polynomial in f}
+    foreach polynomial element tf, in f:
+        r = polyAdd(r, tf)  // polynomial addition pseudo code in example.
 
 
 (b)
