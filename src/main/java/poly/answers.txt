@@ -9,13 +9,15 @@ Problem 0.
 r = p * q:
     // Let f be an array of polynomials gathered through multiplication of terms in p and q.
     set f[] = array of size equal to number of terms in p
-    set index = 0
-    {Inv: f = {p0*q0+p0*q1+ ... +p0*q(i-1), ... , p(i-1)*q0+ ... +p(i-1)*q(i-1)},
-            where pj is the jth term in p and qk is the kth term in q}
-    foreach term, tp, in p:
-        {Inv: f[index] = tp*q0 + tp*q1 + ... + tp*q(i-1), where qk is the kth term in q}
-        foreach term tq, in q:
-            add the product of tp and tq to f[index].
+    declare and set index = 0
+    {Inv: f = {p_0*q_0+p_0*q_1+ ... +p_0*q_(k), ... , p_(j)*q_0+ ... +p_(j)*q_(k)},
+            where p_j is the jth term in p and q_k is the kth term in q}
+    {Inv: f = {p_0*q_0+p_0*q_1+ ... +p_0*q_(i-1), ... , p_(i-1)*q_0+ ... +p_(i-1)*q_(i-1)},
+            where p_j is the jth term in p and q_k is the kth term in q}
+    foreach term, t_p, in p:
+        {Inv: f[index] = t_p*q_0 + t_p*q_1 + ... + t_p*q_(k), where q_k is the kth term in q}
+        foreach term t_q, in q:
+            add the product of t_p and t_q to f[index].
             // for getting product of two terms, Coefficient of each term is multiplied together,
             // degree of each term is added together.
             // as list expands through adding products, each term should have a different degree,
@@ -24,15 +26,79 @@ r = p * q:
         index = index + 1
     set r = f[0] by making a term-by-term copy of all items in f[0] to r
     {Inv: r = f[0] + f[1] + ... + f[i-1], where f[j] is the jth polynomial in f}
-    foreach polynomial element tf, in f:
-        r = polyAdd(r, tf)  // polynomial addition pseudo code in example.
+    foreach polynomial element t_f, in f:
+        r = polyAdd(r, t_f)  // polynomial addition pseudo code in example.
 
 
 (b)
+r = p / q:
+    // Seems as though checking this may not matter for this assignment.
+    Check that polynomials are in descending order
+        if not in descending order, sort
+        continue
+      // Or whatever makes sense for iterating through the polynomial
+    Assume that the passed values of p and q are not references to original p and q, but instead are copies of them.
+    let r be an empty polynomial
+    declare current term for term to multiply in r for the loop.
+    declare temp polynomial
+    if (leading term in q is zero) {  // same as saying if q is zero
+        return not a number, or something of the sort
+    }
+    {Inv: }
+    while (degree of leading term of p >= degree of leading term of q) {
+        // take highest degree term of p with coefficient > 0 and divide by highest degree term of q with coefficient > 0
+        r += highest degree term of p divided by highest degree term of q
+        current = the same value that was just added to r.
+        set temp to the multiplication of current and q
+        set p to the the subtraction of temp from p
+        // Implementation might want to include a pointer to the highest term in new p, and reset it here?
+        repeat
+    }
+    return r
+
+    notes:
+    p/q
+    Assume arguments p and q for this method are copied for use in method.
+
+    1.) take highest degree term from p and divide by highest degree term from q
+            1b.) store value from part 1 to the polynomial value r by adding it, will return r at end.
+    2.) multiply new term in r by each of the terms in q, store in temporary polynomial t. // keep track of new r term with counter variable?
+            2b.) use polynomial multiplication method from part a.
+    3.) subtract t from  p, set local p to this new polynomial.
+            3b.) use polynomial addition method from example.
+    4.) repeat steps 1 through 3.
+            4b.) stop when newest addition to polynomial r has a degree of 1 or t runs out of terms.
 
 
 (c)
+(x^3+x-1) / (x+1) = x^2-x+2
+p           q
+r = empty polynomial set of terms.
+declare current as nothing for now.
+declare temp polynomial as nothing for now.
 
+r += { p.leadingTerm->(1x^3) / q.leadingTerm->(1x) } = 1x^2.
+current = 1x^2.
+temp = polyMultiplication(current, q) = { 1x^3 + 1x^2 }.
+p = PolyAdd(p, -temp) = { 0x^3 - 1x^2 + 1x - 1 }.
+new leading/highest degree term for p is -1x^2
+highest degree of p is >= highest degree of q, so repeat loop
+
+r += { p.leadingTerm->(-1x^2) / q.leadingTerm->(1x) } = { 1x^2 - 1x }.
+current = -1x.
+temp = polyMultiplication(current, q) = { -1x^2 - 1x }.
+p = PolyAdd(p, -temp) = { 0x^2 + 2x - 1 }.
+new leading/highest degree term for p is 2x
+highest degree of p is >= highest degree of q, so repeat loop
+
+r += { p.leadingTerm->(2x) / q.leadingTerm->(1x) } = { 1x^2 - 1x + 2 }.
+current = 2.
+temp = polyMultiplication(current, q) = { 2x + 2 }.
+p = PolyAdd(p, -temp) = { 0x - 3 }.
+new leading/highest degree term for p is -3
+highest degree of p is < highest degree of q, so loop is finished
+
+r = { x^2 - x + 2}
 
 Problem 1.
 
