@@ -139,7 +139,13 @@ declared.
 
 (b)
 ToString would need to to create a separate RatTerm that has the same coefficient and sets the exponent to zero.
-
+    This would be inefficient if ToString is repeatedly called, but if it is rarely called, this shows some extra
+    efficiency as checkRep will have less to assert.
+equals will have to consider if a RatTerm with a zero coefficient and non-zero exponent is equal to another RatTerm with
+    a zero coefficient and a DIFFERENT non-zero exponent are equal or not. This makes the method harder to understand,
+    and therefore may require additional work in its specification. Otherwise there shouldn't be any real
+    changes in performance for equals.
+checkRep is faster with this change, as we would be removing one of the assertions it must make.
 (c)
 
 
