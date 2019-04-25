@@ -201,8 +201,26 @@ public final class RatPoly {
    *     cofind(lst,newTerm.getExpt()) + newTerm.getCoeff())
    */
   private static void sortedInsert(List<RatTerm> lst, RatTerm newTerm) {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly.sortedInsert() is not yet implemented");
+    if (lst.isEmpty() || lst.get(0).getExpt() < newTerm.getExpt()) {
+      lst.add(0, newTerm);
+    } else {
+      int i = 0;
+      while (i < lst.size()) {
+        if (lst.get(i).getExpt() > newTerm.getExpt()) {
+          if (lst.get(i+1).getExpt() == newTerm.getExpt()) {
+            lst.set(i, new RatTerm(newTerm.getCoeff().add(lst.get(i).getCoeff()), newTerm.getExpt()));
+          }
+          else if (lst.get(i+1).getExpt() < newTerm.getExpt()){
+            lst.add(i+1, newTerm);
+          }
+          break;
+        }
+        i++;
+      }
+      if (i == lst.size()) {
+        lst.add(newTerm);
+      }
+    }
   }
 
   /**
