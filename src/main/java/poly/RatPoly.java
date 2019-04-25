@@ -160,8 +160,9 @@ public final class RatPoly {
    * @see RatTerm regarding (C . E) notation
    */
   private static void scaleCoeff(List<RatTerm> lst, RatNum scalar) {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly.scaleCoeff() is not yet implemented");
+    for (int i = 0; i < lst.size(); i++) {
+      lst.set(i, new RatTerm(lst.get(i).getCoeff().mul(scalar), lst.get(i).getExpt()));
+    }
   }
 
   /**
@@ -206,14 +207,19 @@ public final class RatPoly {
     } else {
       int i = 0;
       while (i < lst.size()) {
+        if (lst.get(i).getExpt() == newTerm.getExpt()) {
+          lst.set(i, new RatTerm(newTerm.getCoeff().add(lst.get(i).getCoeff()), newTerm.getExpt()));
+          break;
+        }
         if (lst.get(i).getExpt() > newTerm.getExpt()) {
           if (lst.get(i+1).getExpt() == newTerm.getExpt()) {
-            lst.set(i, new RatTerm(newTerm.getCoeff().add(lst.get(i).getCoeff()), newTerm.getExpt()));
+            lst.set(i+1, new RatTerm(newTerm.getCoeff().add(lst.get(i+1).getCoeff()), newTerm.getExpt()));
+            break;
           }
           else if (lst.get(i+1).getExpt() < newTerm.getExpt()){
             lst.add(i+1, newTerm);
+            break;
           }
-          break;
         }
         i++;
       }
@@ -256,16 +262,15 @@ public final class RatPoly {
       r.terms.add(term);
     }
     for (RatTerm term : this.terms) {
-      for(int i = 0; i < r.terms.size();i++) {
-        if(term.getExpt() == r.terms.get(i).getExpt()) {
-          r.terms.set(i, new RatTerm(term.getCoeff().add(r.terms.get(i).getCoeff()), term.getExpt()));
-        } else {
+      //for(int i = 0; i < r.terms.size();i++) {
+        //if(term.getExpt() == r.terms.get(i).getExpt()) {
+        //  r.terms.set(i, new RatTerm(term.getCoeff().add(r.terms.get(i).getCoeff()), term.getExpt()));
+        //} else {
           sortedInsert(r.terms, term);
-        }
-      }
+        //}
+      //}
     }
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly.add() is not yet implemented");
+    return r;
   }
 
   /**
@@ -277,8 +282,7 @@ public final class RatPoly {
    *     such that r.isNaN()
    */
   public RatPoly sub(RatPoly p) {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly.sub() is not yet implemented");
+    return add(p.negate());
   }
 
   /**
