@@ -132,10 +132,13 @@ therefore the object only needs to call checkRep when it is newly created with u
 Problem 2.
 
 (a)
-
+RatTerm is an immutable representation of a single variable polynomial, therefore none of its methods should be
+mutator methods, and in fact none of its methods are mutator methods. The only case where we expect new values is at
+the constructor, and therefore we call checkRep at the end of the constructor body after the values have been properly
+declared.
 
 (b)
-
+ToString would need to to create a separate RatTerm that has the same coefficient and sets the exponent to zero.
 
 (c)
 
