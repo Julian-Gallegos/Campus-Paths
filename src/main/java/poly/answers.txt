@@ -103,13 +103,31 @@ r = { x^2 - x + 2}
 Problem 1.
 
 (a)
+equals method would not work. It compares the numerators of the two objects and the denominators of the two objects.
+    Would need to convert each objects' values to reduced form to guarantee that the comparision is accurate.
+    Checking and possibly reducing the numer and denom values every time equals is called would slow the method
+    execution time down, but overall the class will run faster as it will not need to check these values each time new
+    values are set, so long as equals is not called too often.
 
+toString spec requires that it is in reduced form, so we would need to check that it is in reduced form, and if it is
+    not in reduced form, would need to convert it for the method. Like equals, if toString is not called too often, this
+    will lead to an overall faster program.
+
+checkRep asserts that the representation invariant is not being violated, so it would need to be updated with the
+    weakened rep invariant. This will always be faster with the new rep invariant, as it has less to check. The
+    efficiency of this rep invariant depends on the frequency of calls to equals and toString, with more calls
+    to them leading to lower speed compared to the old rep invariant.
 
 (b)
-
+This does not respect the spec of the overall class that states that RatNum represents an IMMUTABLE rational number,
+meaning that its values will not me modified.
+None of its methods specifically state that it must be immutable, but as is required of the spec, all methods must
+also respect it.
 
 (c)
-
+RatNum represents an immutable rational number, and therefore it has no mutator methods for its values numer and denom.
+The only time that these values are set is on the declaration of a new object through this class' constructor, and
+therefore the object only needs to call checkRep when it is newly created with unchecked values.
 
 Problem 2.
 
