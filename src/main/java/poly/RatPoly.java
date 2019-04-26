@@ -294,8 +294,13 @@ public final class RatPoly {
    *     such that r.isNaN()
    */
   public RatPoly mul(RatPoly p) {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly.mul() is not yet implemented");
+    RatPoly r = new RatPoly();
+    for (RatTerm term_p : p.terms) {
+      for (RatTerm term_q : this.terms) {
+        sortedInsert(r.terms, term_q.mul(term_p));
+      }
+    }
+    return r;
   }
 
   /**
@@ -332,8 +337,24 @@ public final class RatPoly {
    *     p.isNaN(), returns some q such that q.isNaN().
    */
   public RatPoly div(RatPoly p) {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly.div() is not yet implemented");
+    if (p.isNaN() || this.isNaN() || p.terms.get(0).isZero()) {
+      return RatPoly.NaN;
+    }
+    RatPoly r = new RatPoly();
+    int current = 0;
+    while (this.terms.get(0).getExpt() >= p.terms.get(0).getExpt()) {
+      sortedInsert(r.terms, this.terms.get(0).div(p.terms.get(0)));
+      RatPoly temp = new RatPoly();
+      for (RatTerm term : p.terms) {
+        sortedInsert(temp.terms, r.terms.get(current).mul(term));
+      }
+      RatPoly pCopy = p.sub(temp);
+      p.terms.clear();
+      for (RatTerm term : pCopy.terms) {
+        sortedInsert(p.terms, term);
+      }
+    }
+    return r;
   }
 
   /**
