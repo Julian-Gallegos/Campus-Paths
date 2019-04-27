@@ -89,6 +89,7 @@ public final class RatPoly {
       terms = new ArrayList<RatTerm>();
       terms.add(new RatTerm(new RatNum(c), e));
     }
+    checkRep();
   }
 
   /**
@@ -100,7 +101,7 @@ public final class RatPoly {
   private RatPoly(List<RatTerm> rt) {
     terms = rt;
     // The spec tells us that we don't need to make a copy of 'rt'
-    checkRep();
+    //checkRep();
   }
 
   /**
