@@ -150,6 +150,14 @@ checkRep is faster with this change, as we would be removing one of the assertio
 
 
 Problem 3.
+At the end of the RatTerm list constructor, which could be out of order. There are no other places the
+rep invariant could be invalid outside of error in the program itself. Only a user constructed RatTerm list could be invalid.
 
+Having a list for each would complicate sorting and keeping track of the terms based on degree, but would also clean up
+the code implementation, making everything just a bit neater.
 
 Problem 5.
+x^4
+x^2+x
+x+2
+x^3-x

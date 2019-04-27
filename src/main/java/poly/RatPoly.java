@@ -59,7 +59,6 @@ public final class RatPoly {
   /** @spec.effects Constructs a new Poly, "0". */
   public RatPoly() {
     terms = new ArrayList<RatTerm>();
-    checkRep();
   }
 
   /**
@@ -225,7 +224,7 @@ public final class RatPoly {
     }
     RatPoly rtn = new RatPoly();
     for (RatTerm term : this.terms) {
-      rtn.terms.add(term.negate());
+      sortedInsert(rtn.terms, term.negate());
     }
     return rtn;
   }
@@ -245,7 +244,16 @@ public final class RatPoly {
     RatPoly r = new RatPoly();
     r.terms.addAll(p.terms);
     for (RatTerm term : this.terms) {
+      RatTerm t_r = r.getTerm(term.getExpt());
+      if (term.getExpt() == t_r.getExpt()) {
+        r.terms.remove(t_r);
+        RatTerm temp = term.add(t_r);
+        if(!temp.getCoeff().equals(RatNum.ZERO)) {
+          sortedInsert(r.terms, temp);
+        }
+      } else {
           sortedInsert(r.terms, term);
+      }
     }
     return r;
   }
@@ -274,7 +282,14 @@ public final class RatPoly {
     RatPoly r = new RatPoly();
     for (RatTerm term_p : p.terms) {
       for (RatTerm term_q : this.terms) {
-        sortedInsert(r.terms, term_q.mul(term_p));
+        RatTerm temp = term_q.mul(term_p);
+        RatTerm t_r = r.getTerm(temp.getExpt());
+        if (temp.getExpt() == t_r.getExpt()) {
+          r.terms.remove(t_r);
+          sortedInsert(r.terms, temp.add(t_r));
+        } else {
+          sortedInsert(r.terms, temp);
+        }
       }
     }
     return r;
@@ -318,17 +333,22 @@ public final class RatPoly {
       return RatPoly.NaN;
     }
     RatPoly r = new RatPoly();
-    while (this.terms.get(0).getExpt() >= p.terms.get(0).getExpt() && !p.equals(RatPoly.ZERO)) {
-      RatTerm tempTerm = this.terms.get(0).div(p.terms.get(0));
-      sortedInsert(r.terms, tempTerm);
-      RatPoly temp = new RatPoly();
-      for (RatTerm term : p.terms) {
-        sortedInsert(temp.terms, tempTerm.mul(term));
-      }
-      RatPoly pCopy = p.sub(temp);
-      p.terms.clear();
-      for (RatTerm term : pCopy.terms) {
-        sortedInsert(p.terms, term);
+    RatPoly thisCopy = new RatPoly();
+    thisCopy.terms.addAll(this.terms);
+    if (thisCopy.terms.size() != 0) {
+      while (!thisCopy.equals(RatPoly.ZERO) && thisCopy.terms.get(0).getExpt() >= p.terms.get(0).getExpt()) {
+        RatTerm tempTerm = thisCopy.terms.get(0).div(p.terms.get(0));
+        sortedInsert(r.terms, tempTerm);
+        RatPoly temp = new RatPoly();
+        for (RatTerm term : p.terms) {
+          sortedInsert(temp.terms, tempTerm.mul(term));
+        }
+        RatPoly copy = thisCopy.sub(temp);
+        thisCopy.terms.clear();
+        thisCopy.terms.addAll(copy.terms);
+        //if (thisCopy.terms.get(0).getCoeff().equals(RatNum.ZERO)) {
+         // break;
+        //}
       }
     }
     return r;
@@ -345,9 +365,13 @@ public final class RatPoly {
     if (this.isNaN()) {
       return this;
     }
-    RatPoly q = this;
+    RatPoly q = new RatPoly();
+    q.terms.addAll(this.terms);
     for (int i = 0; i < q.terms.size();i++) {
       q.terms.set(i, q.terms.get(i).differentiate());
+      if (q.terms.get(i).getCoeff().equals(RatNum.ZERO)) {
+        q.terms.remove(i);
+      }
     }
     return q;
   }
@@ -368,11 +392,17 @@ public final class RatPoly {
     if (this.isNaN() || integrationConstant.isNaN()) {
       return RatPoly.NaN;
     }
-    RatPoly q = this;
+    RatPoly q = new RatPoly();
+    q.terms.addAll(this.terms);
     for (int i = 0; i < q.terms.size();i++) {
       q.terms.set(i, q.terms.get(i).antiDifferentiate());
+      if (q.terms.get(i).getCoeff().equals(RatNum.ZERO)) {
+        q.terms.remove(i);
+      }
     }
-    q.terms.add(new RatTerm(integrationConstant, 0));
+    if (!integrationConstant.equals(RatNum.ZERO)) {
+      q.terms.add(new RatTerm(integrationConstant, 0));
+    }
     return q;
   }
 
