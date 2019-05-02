@@ -25,7 +25,7 @@ public final class IntQueue2 {
   // incremented.  As items are dequeued, front is incremented and size
   // is decremented.
 
-  // Normally, your abstraction function and representation invarant would go
+  // Normally, your abstraction function and representation invariant would go
   // here. For ease of grading, please place them in hw5/answers.txt
   // instead with your answers to the other written exercises.
 

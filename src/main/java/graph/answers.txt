@@ -6,13 +6,63 @@ Name:  <replace this with your name>
 Problem 1. (Written exercises)
 
 (a)
+IntQueue1.java :
 
+Representation Invariant:
+  For any index i such that 0 <= i < size(): entries.get(i) != null
+  entries != null
+
+Abstraction Function:
+  AF(r) = a first-in first-out queue of integers, q, such that
+  q.front = r.entries.get(0)
+  q.back = r.entries.get(r.size() - 1)
+
+
+IntQueue2.java :
+
+Representation Invariant:
+  For any index i such that front <= i < size: entries.get(i) != null
+  entries != null
+
+Abstraction Function:
+  AF(r) = a first-in first-out queue, q, such that
+  q.front = r.entries.get(r.front)
+  q.back = r.entries.get(r.front + r.size - 1)
 
 (b)
-
+a == d == g
+b == h
+c == f
+e == e and nothing else
 
 (c)
+1)
+Returns a primitive data type, instead of an object, so there is no threat of
+representation exposure.
 
+2)
+decode returns a String[], which will not be able to access any data from the
+class that decode comes from, this is similar to returning a primitive data type
+in that the data returned is now independent from the class it came from.
+
+3)
+As myBirthday is private, and it does not take input parameters, appearing to be a get method
+of some sort, we can be assured that the client cannot expose the representation.
+
+4)
+toString does not modify anything, nor does it have any sub methods that could access
+an object. Therefore there is no possibility of representation exposure.
+
+5)
+elements is declared public, therefore each of its methods can be accessed.
+If any of these methods would go against a rep invariant, then that means there
+is a chance of representation exposure.
+
+6)
+If the list we are passing into Deck is passed by reference, and we are
+not copying every value to a new list, then the client potentially could
+access and modify the list without using Deck's methods. Therefore there is
+a possibility of representation exposure.
 
 Problem 2.  (Graph interface/operations)
 
