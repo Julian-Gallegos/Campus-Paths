@@ -84,25 +84,28 @@ public class Graph {
         throw new RuntimeException("Graph.edgeExists() is not yet implemented");
     }
 
-    /** Print a list of all Node a's child Nodes to console.
-     * @param a - Parent Node to get list of children from.
+    /** Return a string listing all of Node name's child Nodes.
+     * @param name - Name of parent Node to get list of children from.
      * @spec.requires Node a exists.
+     * @return The string representation of child node.
      */
-    public void listChildren(Node a) {
+    public String listChildren(String name) {
         throw new RuntimeException("Graph.listChildren() is not yet implemented");
     }
 
-    /** Print a list of all of the out edges and the Nodes they go to from a parent Node to console.
-     * @param a - Parent Node to get list of out edges from.
+    /** Return a string listing all of the out edges and the Nodes they go to from a parent Node.
+     * @param name - Name of parent Node to get list of out edges from.
      * @spec.requires Node a exists.
+     * @return The string representation of each out edge.
      */
-    public void listOutEdges(Node a) {
+    public String listOutEdges(String name) {
         throw new RuntimeException("Graph.listOutEdges() is not yet implemented");
     }
 
-    /** Print a list of all the Nodes in this Graph.
+    /** Returns a string listing all of the nodes in the graph.
+     * @return The string representation of each node in the graph.
      */
-    public void listNodes() {
+    public String listNodes() {
         throw new RuntimeException("Graph.listNodes() is not yet implemented");
     }
 

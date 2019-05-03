@@ -132,6 +132,9 @@ as those methods require the names of Nodes to work.
 addEdge();
 Needed to use the Graph's method with the same name.
 
+removeEdge():
+Needed to use the Graph's method with the same name.
+
 A basic graph needs tools to build itself, as well as tools for representing the data in an informative way.
 With that in mind I think this interface does exactly that.
 Some methods, like listChildren, may end up being unnecessary, but I still consider them valuable enough to keep
@@ -149,8 +152,5 @@ design some black-box tests after I finish implementation too.
 For the implementation tests, I held on to the idea of the "0, 1, 2" case analysis, except in cases where it did not
 seem necessary, such as testing if the constructor worked properly.
 My biggest concern in the testing is my dependency on certain methods working properly for each test,
-such as nodeExists() or listNodes(), but I figure that 
-
-
-
-
+such as nodeExists() or listNodes(), but I figure that those will just be the first methods I test and
+debug extensively.

@@ -35,10 +35,22 @@ public class Node {
      * @param edge  - Label of the newly created edge.
      * @spec.requires child exists
      * @spec.modifies this.list
-     * @spec.effects If Node not in this.list, adds it as a key and the String representation of a edge to its value set..
+     * @spec.effects If Node not in this.list, adds it as a key and the String representation of a edge to its value set.
      *               Otherwise adds the String edge to the value set for Node child in this.list
      */
     public void addEdge(String child, String edge) {
+        throw new RuntimeException("Node.addEdge() is not yet implemented");
+    }
+
+    /** Removes an edge from this Node to a child Node.
+     * @param child - Name of the child node this edge points to.
+     * @param edge  - Label of the edge to remove.
+     * @spec.requires child and edge exists.
+     * @spec.modifies this.list
+     * @spec.effects Removes edge between this node and another node, if only edge connecting this node and child node,
+     *               remove child node from map keys.
+     */
+    public void removeEdge(String child, String edge) {
         throw new RuntimeException("Node.addEdge() is not yet implemented");
     }
 

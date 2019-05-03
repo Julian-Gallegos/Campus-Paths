@@ -1,0 +1,10 @@
+# Tests that nodeCount properly counts the number of nodes in a graph
+
+# Create an empty graph
+CreateEmptyGraph graph1
+
+# Add a node
+AddNode graph1 node1
+
+# Check number of nodes in graph1
+graph1 has 1 node
