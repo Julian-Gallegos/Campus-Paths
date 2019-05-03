@@ -76,8 +76,8 @@ Need a way to initialize a Graph. An empty graph list may not be remarkable, but
 Graph(String node):
 Similar to Graph(), adds a node to initialization as I expect a client will likely start adding Nodes anyway.
 
-addNode():
-No point in having a graph is there is no way to add Nodes to the graph.
+addNode(String name):
+No point in having a graph if there is no way to add Nodes to the graph.
 
 addEdge(String parent, String child, String edge):
 Need edges for a graph.
@@ -90,6 +90,9 @@ Same logic as removeNode.
 
 nodeExists(String nodeName):
 More a sanity check than anything else, particularly useful for testing/debugging.
+
+edgeExists(String parent, String child, String edge):
+Same logic as nodeExists().
 
 listChildren(Node a):
 Seems like a useful method for navigating a graph.
@@ -137,6 +140,16 @@ as well.
 I will likely make changes as I move on to the implementation and beyond.
 
 Problem 3.  (Testing strategy)
+My intentions in my tests were to make implementation tests more "system/integration" focused while my specification
+tests were meant to be more like unit tests. However I struggled to figure out a way to properly test one method at a
+time as I believe I always need to build up a standard graph for testing each method, so I may need to tweak around
+with the specification testing suite at a later date.
+Clearly I am doing clear-box testing, as there is no implementation to be influenced by, but I would also like to
+design some black-box tests after I finish implementation too.
+For the implementation tests, I held on to the idea of the "0, 1, 2" case analysis, except in cases where it did not
+seem necessary, such as testing if the constructor worked properly.
+My biggest concern in the testing is my dependency on certain methods working properly for each test,
+such as nodeExists() or listNodes(), but I figure that 
 
 
 
