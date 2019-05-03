@@ -1,0 +1,7 @@
+# Tests that a node can be added to a graph
+
+#Create an empty graph
+CreateEmptyGraph graph1
+
+# Add node to a graph
+AddNode graph1 node1

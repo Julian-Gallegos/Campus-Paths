@@ -1,5 +1,4 @@
 package graph.specTest;
-
 import java.io.*;
 import java.util.*;
 
@@ -106,7 +105,7 @@ public class GraphTestDriver {
                 createGraph(arguments);
             } else if (command.equals("AddNode")) {
                 addNode(arguments);
-            } else if (command.equals("AddEdge")) {
+            } else if (command.equals("AddEdge.test")) {
                 addEdge(arguments);
             } else if (command.equals("ListNodes")) {
                 listNodes(arguments);

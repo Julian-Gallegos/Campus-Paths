@@ -1,0 +1,4 @@
+# Tests that a graph with no nodes can be created.
+
+# Create a graph
+CreateEmptyGraph graph1

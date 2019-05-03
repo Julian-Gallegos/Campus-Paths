@@ -20,7 +20,7 @@ public class Graph {
 
     /** Adds a new node to this Graph.
      * @spec.requires node has a unique name
-     *                node character length > 0.
+     *                node character length less than 0.
      * @spec.modifies this.graph
      * @spec.effects Adds a new Node "node" to this.graph.
      */
@@ -67,15 +67,15 @@ public class Graph {
 
     /** Print a list of all Node a's child Nodes to console.
      * @param a - Parent Node to get list of children from.
-     * @spec.requires Node a exist.
+     * @spec.requires Node a exists.
      */
     public void listChildren(Node a) {
         throw new RuntimeException("Graph.listChildren() is not yet implemented");
     }
 
-    /** Print a list of all of the out edges from a Node to console.
+    /** Print a list of all of the out edges and the Nodes they go to from a parent Node to console.
      * @param a - Parent Node to get list of out edges from.
-     * @spec.requires Node a exist.
+     * @spec.requires Node a exists.
      */
     public void listOutEdges(Node a) {
         throw new RuntimeException("Graph.listOutEdges() is not yet implemented");

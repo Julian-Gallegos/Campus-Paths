@@ -1,0 +1,4 @@
+# Tests that a graph with one node can be created.
+
+# Create a graph with a node
+created graph1 with node1

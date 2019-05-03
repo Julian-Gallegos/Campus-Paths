@@ -1,0 +1,4 @@
+# Tests that a graph with one node can be created.
+
+# Create a graph with a node
+CreateGraph graph1 node1
