@@ -1,4 +1,4 @@
-# Tests that the list of children for a parent node can be printed out
+# Tests that an edge between a parent node and a child node can be removed.
 
 # Create an empty graph
 CreateEmptyGraph graph1
@@ -10,5 +10,5 @@ AddNode graph1 node2
 # Add an edge from node1 to node 2
 AddEdge graph1 node1 node2 edge1
 
-# Print all of the children of a node
-ListChildren graph1 node1
+# Remove an edge from node1 to node 2
+RemoveEdge graph1 node1 node2 edge1

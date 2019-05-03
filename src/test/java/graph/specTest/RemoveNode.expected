@@ -1,0 +1,10 @@
+# Tests that a node can be removed from a graph
+
+#Create an empty graph
+created graph graph1
+
+# Add node to a graph
+added node node1 to graph1
+
+# Remove node from a graph
+removed node node1 from graph1

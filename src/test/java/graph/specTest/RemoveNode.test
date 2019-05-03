@@ -1,0 +1,10 @@
+# Tests that a node can be removed from a graph
+
+#Create an empty graph
+CreateEmptyGraph graph1
+
+# Add node to a graph
+AddNode graph1 node1
+
+# Remove node from a graph
+RemoveNode graph1 node1

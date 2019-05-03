@@ -19,12 +19,13 @@ public class Graph {
     public Graph(String node) { }
 
     /** Adds a new node to this Graph.
+     * @param name - Name of the new node.
      * @spec.requires node has a unique name
      *                node character length less than 0.
      * @spec.modifies this.graph
      * @spec.effects Adds a new Node "node" to this.graph.
      */
-    public void addNode() {
+    public void addNode(String name) {
         throw new RuntimeException("Graph.addNode() is not yet implemented");
     }
 
@@ -65,6 +66,24 @@ public class Graph {
         throw new RuntimeException("Graph.removeEdge() is not yet implemented");
     }
 
+    /** Returns true if the specified node exists in the graph.
+     * @param nodeName - Node that we are checking for in the graph.
+     * @return true is "nodeName" is in the graph, false otherwise.
+     */
+    public boolean nodeExists(String nodeName) {
+        throw new RuntimeException("Graph.nodeExists() is not yet implemented");
+    }
+
+    /** Returns true if the specified edge exists in the graph
+     * @param parent - the node that "edge" is coming from.
+     * @param child - the node that "edge" is going to.
+     * @param edge - edge from parent node to child node that we are checking for in the graph.
+     * @return true is "edge" is in the graph, false otherwise.
+     */
+    public boolean edgeExists(String parent, String child, String edge) {
+        throw new RuntimeException("Graph.edgeExists() is not yet implemented");
+    }
+
     /** Print a list of all Node a's child Nodes to console.
      * @param a - Parent Node to get list of children from.
      * @spec.requires Node a exists.
@@ -93,6 +112,13 @@ public class Graph {
      */
     public void clear() {
         throw new RuntimeException("Graph.clear() is not yet implemented");
+    }
+
+    /** Returns an int count of the number of nodes in graph.
+     * @return an int representing number of nodes in this.graph.
+     */
+    public int nodeCount() {
+        throw new RuntimeException("Graph.nodeCount() is not yet implemented");
     }
 
 }

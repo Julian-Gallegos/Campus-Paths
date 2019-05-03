@@ -88,6 +88,9 @@ I believe the graph should undergo any kind of change as needed, so removing a N
 removeEdge(String parent, String child, String edge):
 Same logic as removeNode.
 
+nodeExists(String nodeName):
+More a sanity check than anything else, particularly useful for testing/debugging.
+
 listChildren(Node a):
 Seems like a useful method for navigating a graph.
 
@@ -100,6 +103,9 @@ Not totally necessary for a functioning graph, but it seems useful for keeping t
 
 clear():
 The graph is mutable, so allowing it to be reused instead of creating another graph object makes sense.
+
+nodeCount():
+Useful for testing, also probably useful to have a return value for the node count for future implementation purposes.
 
 
 Node class:
@@ -126,7 +132,9 @@ Needed to use the Graph's method with the same name.
 A basic graph needs tools to build itself, as well as tools for representing the data in an informative way.
 With that in mind I think this interface does exactly that.
 Some methods, like listChildren, may end up being unnecessary, but I still consider them valuable enough to keep
-for now. I will likely make changes as I move on to the implementation and beyond.
+for now. Other methods, like nodeCount() and nodeExists() are useful for testing, and may see some use in implementation
+as well.
+I will likely make changes as I move on to the implementation and beyond.
 
 Problem 3.  (Testing strategy)
 

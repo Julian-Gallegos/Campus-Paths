@@ -1,0 +1,15 @@
+# Tests that the list of out edges from a node can be printed out
+
+#Create an empty graph
+created graph graph1
+
+# Add node to a graph
+added node node1 to graph1
+added node node2 to graph1
+
+# Add edges from node1 to node 2
+added edge edge1 from node1 to node2 in graph1
+added edge edge2 from node1 to node2 in graph1
+
+# Print the out edges from node1 to node 2
+the edges from node1 to node 2 in graph1 are: edge1, edge2
