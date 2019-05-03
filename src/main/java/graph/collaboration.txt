@@ -1,3 +1,5 @@
 Ziggie Rai:
 After working on our own designs for some time,
 discussed design ideas for part 2, such as how many classes we should have, and why.
+Briefly discussed our understandings of the formatting for the specification tests, but only spent a couple minutes
+together on this.
