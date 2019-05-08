@@ -1,0 +1,24 @@
+Problem 1:
+
+a.) In two or three sentences, explain an advantage and a disadvantage of each representation
+    (for example, in terms of runtime complexity, space complexity, or ease of implementation).
+
+Collection of edges:
+Not sure, but probably slower run times, also probably not as space efficient as adjacency matrix with dense graph.
+
+Adjacency list:
+For large sparse graph (graphs with few edges), an adjacency list requires less storage space than an adjacency matrix,
+as it does not use any space to represent edges that are not present.
+
+Adjacency matrix:
+For more dense graphs, an adjacency matrix is more space efficient than an adjacency list, due to the compact memory
+storage style it uses. This compact storage also encourages locality of reference, that is, it takes advantage of how
+a processor fetches data that has been called, noting the likelihood that the memory around that data may also
+be accessed.
+
+b.)
+
+Adjacency list:
+I chose this as I cannot be sure of the density of my graph, and therefore assume it will more often than not be more
+sparse. (Say something about runtimes too). Both adjacency list and adjacency matrix seem to be equally challenging
+to implement, so that was not a factor in my comparison.

@@ -124,4 +124,6 @@ public class Graph {
         throw new RuntimeException("Graph.nodeCount() is not yet implemented");
     }
 
+    private void checkRep() { throw new RuntimeException("Graph.checkRep() is not yet implemented"); }
+
 }
