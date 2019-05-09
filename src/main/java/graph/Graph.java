@@ -1,56 +1,75 @@
 package graph;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 public class Graph {
 
-    private List<Node> graph;
+    /**
+     * Representation Invariant:
+     *
+     *
+     *
+     */
+
+    private Hashtable<String, Node> graph;
 
     /** Creates a new Graph with an empty graph list.
      * @spec.effects Constructs a new Graph g with g.graph.isEmpty() = true.
      */
-    public Graph() { }
+    public Graph() {
+        this.graph = new Hashtable<String, Node>();
+    }
 
     /** Creates a new Graph with one node in the graph list.
      * @param node - The name of the Node being added to Graph.
      * @spec.requires Name of "node" is at least one character.
      * @spec.effects Constructs a new Graph g with Node "node" in g.graph.
      */
-    public Graph(String node) { }
+    public Graph(String node) {
+        this.graph = new Hashtable<String, Node>();
+        this.graph.put(node, new Node(node));
+    }
 
     /** Adds a new node to this Graph.
      * @param name - Name of the new node.
      * @spec.requires node has a unique name
-     *                node character length less than 0.
      * @spec.modifies this.graph
      * @spec.effects Adds a new Node "node" to this.graph.
+     * @throws RuntimeException if input is null or a zero length string.
      */
     public void addNode(String name) {
-        throw new RuntimeException("Graph.addNode() is not yet implemented");
+        graph.put(name, new Node(name));
     }
 
     /** Adds a new edge from one Node to another Node in Graph.
      * @param parent - Name of parent Node for the new edge.
      * @param child - Name of child Node for the new edge.
      * @param edge - Label for the new edge.
-     * @spec.requires Node's a and b both exist
-     *                an identical edge with a same label from Node a to Node b does not exist.
+     * @spec.requires Nodes parent and child both exist
+     * @thorws RuntimeException if edge already exists between parent and child.
      * @spec.modifies this.graph
      * @spec.effects Add an edge to Node a that travels to the child Node b.
      */
     public void addEdge(String parent, String child, String edge) {
-        throw new RuntimeException("Graph.addEdge() is not yet implemented");
-    }
+        this.graph.get(parent).addEdge(child, edge);
+;    }
 
     /** Removes a node from the Graph.
      * @param name - The name of the node to remove.
-     * @spec.requires node exists.
+     * @spec.requires node "name" exists.
+     * @throws RuntimeException if input is null.
      * @spec.modifies this.graph
      * @spec.effects Removes the Node with name "name" from this.graph, as well as
      *               all of the edges going to and from it.
      */
     public void removeNode(String name) {
-        throw new RuntimeException("Graph.removeNode() is not yet implemented");
+        if (name == null) {
+            throw new RuntimeException("input must not be null");
+        }
+        this.graph.remove(name);
     }
 
     /** Removes an edge from the Graph.
@@ -63,7 +82,7 @@ public class Graph {
      *               to child in this.graph.
      */
     public void removeEdge(String parent, String child, String edge) {
-        throw new RuntimeException("Graph.removeEdge() is not yet implemented");
+        this.graph.get(parent).removeEdge(child, edge);
     }
 
     /** Returns true if the specified node exists in the graph.
@@ -71,7 +90,10 @@ public class Graph {
      * @return true is "nodeName" is in the graph, false otherwise.
      */
     public boolean nodeExists(String nodeName) {
-        throw new RuntimeException("Graph.nodeExists() is not yet implemented");
+        if (this.graph.containsKey(nodeName)) {
+            return true;
+        }
+        return false;
     }
 
     /** Returns true if the specified edge exists in the graph
@@ -81,7 +103,10 @@ public class Graph {
      * @return true is "edge" is in the graph, false otherwise.
      */
     public boolean edgeExists(String parent, String child, String edge) {
-        throw new RuntimeException("Graph.edgeExists() is not yet implemented");
+        if (this.graph.get(parent).getEdges().get(child).contains(edge)) {
+            return true;
+        }
+        return false;
     }
 
     /** Return a string listing all of Node name's child Nodes.
@@ -89,8 +114,10 @@ public class Graph {
      * @spec.requires Node a exists.
      * @return The string representation of child node.
      */
-    public String listChildren(String name) {
-        throw new RuntimeException("Graph.listChildren() is not yet implemented");
+    public List<String> listChildren(String name) {
+        ArrayList<String> nodeList = new ArrayList<String>();
+        nodeList.addAll(this.graph.get(name).getEdges().keySet());
+        return nodeList;
     }
 
     /** Return a string listing all of the out edges and the Nodes they go to from a parent Node.
@@ -99,14 +126,19 @@ public class Graph {
      * @return The string representation of each out edge.
      */
     public String listOutEdges(String name) {
+        return this.graph.get(name).getEdges();
         throw new RuntimeException("Graph.listOutEdges() is not yet implemented");
     }
 
     /** Returns a string listing all of the nodes in the graph.
      * @return The string representation of each node in the graph.
      */
-    public String listNodes() {
-        throw new RuntimeException("Graph.listNodes() is not yet implemented");
+    public List<String> listNodes() {
+        ArrayList<String> nodeList = new ArrayList<String>();
+        for (Node node : this.graph.values()) {
+            nodeList.add(node.getName());
+        }
+        return nodeList;
     }
 
     /** Removes all Nodes and edges from the Graph.
