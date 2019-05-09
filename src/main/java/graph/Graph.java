@@ -1,20 +1,32 @@
 package graph;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
+import java.util.*;
 
+/**
+ * This class represents a directed, weighted graph of nodes with unique names and string based edge labels.
+ */
 public class Graph {
 
-    /**
-     * Representation Invariant:
-     *
-     *
-     *
-     */
 
+    /** The set of nodes within the graph */
     private Hashtable<String, Node> graph;
+
+    // Representation Invariant:
+    // For all x, y; x != y: this.graph.get(x).getName() != this.graph.get(y).getName()
+    //
+    // For each edge "e" from node x to node y, there does not exist another edge from x to y with the same edge label.
+    //
+    // Arbitrary node x != null
+    //
+    // x.name != null
+    //
+    // For any edge e, this.edgeExists(e) != true when this.listNodes.size() < 2
+    //
+    //
+    // Abstraction Function:
+    //  AF(this) = a graph, g, such that
+    //   g.list contains >= 0 nodes with unique names
+    //                   >= 0 edges between nodes
 
     /** Creates a new Graph with an empty graph list.
      * @spec.effects Constructs a new Graph g with g.graph.isEmpty() = true.
@@ -31,6 +43,7 @@ public class Graph {
     public Graph(String node) {
         this.graph = new Hashtable<String, Node>();
         this.graph.put(node, new Node(node));
+        this.checkRep();
     }
 
     /** Adds a new node to this Graph.
@@ -38,46 +51,49 @@ public class Graph {
      * @spec.requires node has a unique name
      * @spec.modifies this.graph
      * @spec.effects Adds a new Node "node" to this.graph.
-     * @throws RuntimeException if input is null or a zero length string.
+     * @throws RuntimeException if input is zero length string.
+     * @throws NullPointerException if name input is null.
      */
     public void addNode(String name) {
         graph.put(name, new Node(name));
+        this.checkRep();
     }
 
     /** Adds a new edge from one Node to another Node in Graph.
      * @param parent - Name of parent Node for the new edge.
      * @param child - Name of child Node for the new edge.
      * @param edge - Label for the new edge.
-     * @spec.requires Nodes parent and child both exist
-     * @thorws RuntimeException if edge already exists between parent and child.
+     * @spec.requires Child exists in graph.
+     * @throws RuntimeException if edge with same label already exists between parent and child.
+     * @throws NullPointerException if parent input value is null.
      * @spec.modifies this.graph
      * @spec.effects Add an edge to Node a that travels to the child Node b.
      */
     public void addEdge(String parent, String child, String edge) {
         this.graph.get(parent).addEdge(child, edge);
+        this.checkRep();
 ;    }
 
-    /** Removes a node from the Graph.
+    /** Removes a node from the Graph, if it exists, otherwise does nothing.
      * @param name - The name of the node to remove.
-     * @spec.requires node "name" exists.
-     * @throws RuntimeException if input is null.
+     * @throws NullPointerException if input is null.
      * @spec.modifies this.graph
      * @spec.effects Removes the Node with name "name" from this.graph, as well as
      *               all of the edges going to and from it.
      */
     public void removeNode(String name) {
-        if (name == null) {
-            throw new RuntimeException("input must not be null");
-        }
         this.graph.remove(name);
+        for (Node node : this.graph.values()) {
+            node.removeChild(name);
+        }
     }
 
-    /** Removes an edge from the Graph.
+    /** Removes an edge from the Graph. Does nothing if Nodes parent or child or edge does not exist on the graph.
      * @param parent - Name of the parent node that the edge is coming from.
      * @param child - Name of the child node that the edge is going to.
      * @param edge  - Label of the edge going from parent to child.
-     * @spec.requires parent, child, and edge exists.
      * @spec.modifies this.graph
+     * @throws NullPointerException if parent input is null.
      * @spec.effects Removes the edge with label "edge" coming from parent
      *               to child in this.graph.
      */
@@ -87,6 +103,7 @@ public class Graph {
 
     /** Returns true if the specified node exists in the graph.
      * @param nodeName - Node that we are checking for in the graph.
+     * @throws NullPointerException if nodeName input is null.
      * @return true is "nodeName" is in the graph, false otherwise.
      */
     public boolean nodeExists(String nodeName) {
@@ -100,6 +117,7 @@ public class Graph {
      * @param parent - the node that "edge" is coming from.
      * @param child - the node that "edge" is going to.
      * @param edge - edge from parent node to child node that we are checking for in the graph.
+     * @throws NullPointerException if parent input is null.
      * @return true is "edge" is in the graph, false otherwise.
      */
     public boolean edgeExists(String parent, String child, String edge) {
@@ -109,35 +127,39 @@ public class Graph {
         return false;
     }
 
-    /** Return a string listing all of Node name's child Nodes.
+    /** Return an alphabetically sorted list of all the Node name's child Nodes.
+     *  If Node name does not exist, returns an empty list.
      * @param name - Name of parent Node to get list of children from.
-     * @spec.requires Node a exists.
-     * @return The string representation of child node.
+     * @throws NullPointerException if input is null
+     * @return Sorted list of node names.
      */
     public List<String> listChildren(String name) {
         ArrayList<String> nodeList = new ArrayList<String>();
         nodeList.addAll(this.graph.get(name).getEdges().keySet());
+        nodeList.sort(String.CASE_INSENSITIVE_ORDER);
         return nodeList;
     }
 
-    /** Return a string listing all of the out edges and the Nodes they go to from a parent Node.
+    /** Return a map listing of all of the out edges and the Nodes they go to from a parent Node.
+     *
      * @param name - Name of parent Node to get list of out edges from.
-     * @spec.requires Node a exists.
-     * @return The string representation of each out edge.
+     * @spec.requires Node "name" exists in this graph.
+     * @throws NullPointerException if input is null.
+     * @return The Map<node name String, list<String> edges> from Node name.
      */
-    public String listOutEdges(String name) {
+    public Map<String, List<String>> listOutEdges(String name) {
         return this.graph.get(name).getEdges();
-        throw new RuntimeException("Graph.listOutEdges() is not yet implemented");
     }
 
-    /** Returns a string listing all of the nodes in the graph.
-     * @return The string representation of each node in the graph.
+    /** Returns a list of the names of all the nodes in the graph in alphabetic order.
+     * @return An alphabetically sorted list of node names
      */
     public List<String> listNodes() {
         ArrayList<String> nodeList = new ArrayList<String>();
         for (Node node : this.graph.values()) {
             nodeList.add(node.getName());
         }
+        nodeList.sort(String.CASE_INSENSITIVE_ORDER);
         return nodeList;
     }
 
@@ -146,16 +168,39 @@ public class Graph {
      * @spec.effects Removes all Nodes and edges from this.graph.
      */
     public void clear() {
-        throw new RuntimeException("Graph.clear() is not yet implemented");
+        this.graph.clear();
     }
 
-    /** Returns an int count of the number of nodes in graph.
-     * @return an int representing number of nodes in this.graph.
-     */
-    public int nodeCount() {
-        throw new RuntimeException("Graph.nodeCount() is not yet implemented");
-    }
+    /** Throws an exception if the representation invariant is violated. */
+    private void checkRep() {
+        Iterator<Node> iter = this.graph.values().iterator();
+        Node n = iter.next();
+        while (iter.hasNext()) {
+            // Check node is not null
+            assert n != null;
 
-    private void checkRep() { throw new RuntimeException("Graph.checkRep() is not yet implemented"); }
+            // Check node name is not null
+            assert n.getName()!= null;
+
+            // Check unique edge labels
+            for (List<String> edgeList : n.getEdges().values()) {
+                for (int edge1 = 0; edge1 < edgeList.size(); edge1++) {
+                    for (int edge2 = edge1 + 1; edge2 < edgeList.size(); edge2++) {
+                        assert edgeList.get(edge1) != edgeList.get(edge2);
+                    }
+                }
+            }
+
+            // Check no edges if node count < 2
+            if (this.listNodes().size() < 2) {
+                assert n.getEdges().size() == 0;
+            }
+
+            // Check each node name unique.
+            Node n2 = iter.next();
+            assert n.getName() != n2.getName();
+            n = n2;
+        }
+    }
 
 }

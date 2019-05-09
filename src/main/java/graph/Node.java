@@ -6,9 +6,21 @@ import java.util.Map;
 
 public class Node {
 
-    private String name;
-    private int nodeID;
+    private final String name;
     private Map<String, List<String>> list;
+
+    // Representation Invariant:
+    // For each edge "e" from this node to an arbitrary node x,
+    // there does not exist another edge from this to x with the same edge label.
+    //
+    // For any String (node) x, if (this.list.get(x).size() == 0) { this.list.get(x) = null }
+    //
+    //
+    // Abstraction Function:
+    //  AF(this) = a node, n, such that
+    //   n.name = the name of this node.
+    //   n.list contains >= 0 String keys representing other nodes
+    //   n.list.get(name of node in keyset) contains >= 1 edges between nodes
 
     /** Creates a new Node.
      * @param name Name of the new Node.
@@ -24,7 +36,6 @@ public class Node {
     }
 
     /** Returns a copy of Node's set of edges.
-     * @spec.requires Node.list.isEmpty() = false.
      * @return this.list
      */
     public Map<String, List<String>> getEdges() {
@@ -42,7 +53,7 @@ public class Node {
      * @param child - Name of the child node this edge points to.
      * @param edge  - Label of the newly created edge.
      * @spec.requires child exists
-     * @throws RuntimeException if edge already exists between this and child.
+     * @throws RuntimeException if edge with same label already exists between this and child.
      * @spec.modifies this.list
      * @spec.effects If Node not in this.list, adds it as a key and the String representation of a edge to its value set.
      *               Otherwise adds the String edge to the value set for Node child in this.list
@@ -60,10 +71,9 @@ public class Node {
         }
     }
 
-    /** Removes an edge from this Node to a child Node.
+    /** Removes an edge from this Node to a child Node. Does nothing if child node and/or edge does no exist.
      * @param child - Name of the child node this edge points to.
      * @param edge  - Label of the edge to remove.
-     * @spec.requires child and edge exists.
      * @spec.modifies this.list
      * @spec.effects Removes edge between this node and another node, if only edge connecting this node and child node,
      *               remove child node from map keys.
@@ -75,4 +85,34 @@ public class Node {
         }
     }
 
+    /** Removes the child Node "name" from this.list as well as the edges to it.
+     * @param name - name of the node we wish to remove.
+     * @spec.modifies this.list
+     * @spec.effects Remove key Node "name" from this.list, also remove the edges attached to it.
+     */
+    public void removeChild(String name) {
+        this.list.remove(name);
+    }
+
+    // Representation Invariant:
+    // For each edge "e" from this node to an arbitrary node x,
+    // there does not exist another edge from this to x with the same edge label.
+    // For any String (node) x, if (this.list.get(x).size() == 0) { this.list.get(x) = null }
+
+    /** Throws an exception if the representation invariant is violated. */
+    private void checkRep() {
+        // Check unique edge labels
+        for (List<String> edgeList : this.list.values()) {
+            for (int edge1 = 0; edge1 < edgeList.size(); edge1++) {
+                for (int edge2 = edge1 + 1; edge2 < edgeList.size(); edge2++) {
+                    assert edgeList.get(edge1) != edgeList.get(edge2);
+                }
+            }
+        }
+
+
+        for (List<String> edgeList : this.list.values()) {
+            assert edgeList.size() != 0;
+        }
+    }
 }
