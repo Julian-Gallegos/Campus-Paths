@@ -29,7 +29,7 @@ public final class GraphTest {
         assertEquals(0, newGraph.listNodes().size());
 
         Graph newGraph2 = new Graph("node1");
-        assertEquals(1, newGraph.listNodes().size());
+        assertEquals(1, newGraph2.listNodes().size());
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -62,13 +62,40 @@ public final class GraphTest {
         assertTrue(newGraph.nodeExists("node1"));
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    ////  nodeExists
+    ///////////////////////////////////////////////////////////////////////////////////////
+
     @Test
-    public void testAddInvalidNodeName() {
+    public void testNodeExists() {
         Graph newGraph = new Graph();
 
-        newGraph.addNode("");
-        assertEquals(0, newGraph.listNodes().size());
-        assertFalse(newGraph.nodeExists(""));
+        newGraph.addNode("node1");
+        assertEquals(1, newGraph.listNodes().size());
+        assertTrue(newGraph.nodeExists("node1"));
+        assertFalse(newGraph.nodeExists("node-1"));
+
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+    ////  edgeExists
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void testEdgeExists() {
+        Graph newGraph = new Graph();
+
+        newGraph.addNode("node1");
+        assertEquals(1, newGraph.listNodes().size());
+        assertTrue(newGraph.nodeExists("node1"));
+        newGraph.addNode("node2");
+        assertEquals(2, newGraph.listNodes().size());
+        assertTrue(newGraph.nodeExists("node2"));
+
+        newGraph.addEdge("node1", "node2", "Love");
+        assertTrue(newGraph.edgeExists("node1", "node2", "Love"));
+        assertFalse(newGraph.edgeExists("node1", "node2", "Peace"));
+
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -91,7 +118,7 @@ public final class GraphTest {
         assertTrue(newGraph.nodeExists("node2"));
 
         newGraph.removeNode("node1");
-        assertEquals("Nodes in graph: node2", newGraph.listNodes());
+        assertEquals("[node2]", newGraph.listNodes().toString());
     }
 
     @Test
@@ -119,24 +146,11 @@ public final class GraphTest {
         newGraph.addEdge("node1", "node2", "123");
         assertTrue(newGraph.edgeExists("node1", "node2", "123"));
 
-        newGraph.addEdge("node1", "node2", "123");
-        assertEquals("From node1: node2(123)", newGraph.listOutEdges("node1"));
+        newGraph.addEdge("node1", "node2", "111");
+        assertEquals("{node2=[123, 111]}", newGraph.listOutEdges("node1").toString());
 
         newGraph.addEdge("node1", "node2", "456");
-        assertEquals("From node1: node2(123), node2(456)", newGraph.listOutEdges("node1"));
-    }
-
-    public void testAddInvalidEdgeLabel() {
-        Graph newGraph = new Graph();
-        newGraph.addNode("node1");
-        assertEquals(1, newGraph.listNodes().size());
-        assertTrue(newGraph.nodeExists("node1"));
-        newGraph.addNode("node2");
-        assertEquals(2, newGraph.listNodes().size());
-        assertTrue(newGraph.nodeExists("node2"));
-
-        newGraph.addEdge("node1", "node2", "");
-        assertFalse(newGraph.edgeExists("node1", "node2", ""));
+        assertEquals("{node2=[123, 111, 456]}", newGraph.listOutEdges("node1").toString());
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -155,10 +169,94 @@ public final class GraphTest {
         newGraph.addEdge("node1", "node2", "123");
         assertTrue(newGraph.edgeExists("node1", "node2", "123"));
         newGraph.addEdge("node1", "node2", "456");
-        assertEquals("From node1: node2(123), node2(456)", newGraph.listOutEdges("node1"));
+        assertEquals("{node2=[123, 456]}", newGraph.listOutEdges("node1").toString());
 
         newGraph.removeEdge("node1", "node2", "123");
-        assertEquals("From node1: node2(456)", newGraph.listOutEdges("node1"));
+        assertEquals("{node2=[456]}", newGraph.listOutEdges("node1").toString());
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+    ////  listChildren
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void testListChildren() {
+        Graph newGraph = new Graph();
+        newGraph.addNode("node1");
+        assertEquals(1, newGraph.listNodes().size());
+        assertTrue(newGraph.nodeExists("node1"));
+        newGraph.addNode("node2");
+        assertEquals(2, newGraph.listNodes().size());
+        assertTrue(newGraph.nodeExists("node2"));
+        newGraph.addNode("node3");
+        assertEquals(3, newGraph.listNodes().size());
+        assertTrue(newGraph.nodeExists("node3"));
+        newGraph.addEdge("node1", "node2", "123");
+        assertTrue(newGraph.edgeExists("node1", "node2", "123"));
+        newGraph.addEdge("node1", "node3", "123");
+        assertTrue(newGraph.edgeExists("node1", "node3", "123"));
+
+        assertEquals("[node2, node3]", newGraph.listChildren("node1").toString());
+
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+    ////  listNodes
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void testListNodes() {
+        Graph newGraph = new Graph();
+        assertEquals("[]", newGraph.listNodes().toString());
+        assertTrue(newGraph.listNodes().isEmpty());
+
+        newGraph.addNode("node1");
+        assertEquals(1, newGraph.listNodes().size());
+
+        newGraph.addNode("node2");
+        assertEquals(2, newGraph.listNodes().size());
+
+        assertEquals("[node1, node2]", newGraph.listNodes().toString());
+
+        assertTrue(newGraph.listNodes().contains("node1") && newGraph.listNodes().contains("node2"));
+    }
+
+    @Test
+    public void testAlphabeticalNodeList() {
+        Graph newGraph = new Graph("c");
+        newGraph.addNode("b");
+        newGraph.addNode("d");
+        newGraph.addNode("a");
+        newGraph.addNode("e");
+        newGraph.addNode("f");
+
+        assertEquals("[a, b, c, d, e, f]", newGraph.listNodes().toString());
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+    ////  listOutEdges
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void testListOutEdges() {
+        Graph newGraph = new Graph();
+        newGraph.addNode("node1");
+        assertEquals(1, newGraph.listNodes().size());
+        assertTrue(newGraph.nodeExists("node1"));
+        newGraph.addNode("node2");
+        assertEquals(2, newGraph.listNodes().size());
+        assertTrue(newGraph.nodeExists("node2"));
+        newGraph.addNode("node3");
+        assertEquals(3, newGraph.listNodes().size());
+        assertTrue(newGraph.nodeExists("node3"));
+        newGraph.addEdge("node1", "node2", "123");
+        assertTrue(newGraph.edgeExists("node1", "node2", "123"));
+        newGraph.addEdge("node1", "node3", "123");
+        assertTrue(newGraph.edgeExists("node1", "node3", "123"));
+        newGraph.addEdge("node1", "node3", "123456");
+        assertTrue(newGraph.edgeExists("node1", "node3", "123456"));
+
+        assertEquals("{node3=[123, 123456], node2=[123]}", newGraph.listOutEdges("node1").toString());
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -177,7 +275,7 @@ public final class GraphTest {
         newGraph.addEdge("node1", "node2", "123");
         assertTrue(newGraph.edgeExists("node1", "node2", "123"));
         newGraph.addEdge("node1", "node2", "456");
-        assertEquals("From node1: node2(123), node2(456)", newGraph.listOutEdges("node1"));
+        assertEquals("{node2=[123, 456]}", newGraph.listOutEdges("node1").toString());
 
         newGraph.clear();
         assertEquals(0, newGraph.listNodes().size());

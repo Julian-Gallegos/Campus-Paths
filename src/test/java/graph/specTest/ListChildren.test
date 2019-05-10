@@ -1,14 +1,18 @@
 # Tests that the list of children for a parent node can be printed out
 
 # Create an empty graph
-CreateEmptyGraph graph1
+CreateGraph graph1
 
-# Add a pair of nodes
+# Add nodes to a graph
 AddNode graph1 node1
 AddNode graph1 node2
+AddNode graph1 node3
 
-# Add an edge from node1 to node 2
+# Add edges
 AddEdge graph1 node1 node2 edge1
+AddEdge graph1 node1 node2 edge2
+AddEdge graph1 node1 node3 edge1
+AddEdge graph1 node1 node3 aaaaa
 
 # Print all of the children of a node
 ListChildren graph1 node1

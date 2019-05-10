@@ -27,9 +27,7 @@ public final class NodeTest {
     public void testCtor() {
         Node newNode = new Node("node1");
         assertNotNull(newNode);
-
-        Node newNode1 = new Node("");
-        assertNull(newNode1);
+        assertEquals("node1", newNode.getName());
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -42,7 +40,7 @@ public final class NodeTest {
         assertNotNull(newNode);
 
         newNode.addEdge("node2", "123");
-        assertEquals("node2(123)", newNode.getEdges().toString());
+        assertEquals("{node2=[123]}", newNode.getEdges().toString());
     }
 
     @Test
@@ -50,10 +48,10 @@ public final class NodeTest {
         Node newNode = new Node("node1");
         assertNotNull(newNode);
         newNode.addEdge("node2", "123");
-        assertEquals("node2(123)", newNode.getEdges().toString());
+        assertEquals("{node2=[123]}", newNode.getEdges().toString());
 
         newNode.addEdge("node2", "123");
-        assertNotEquals("node2(123), node2(123)", newNode.getEdges().toString());
+        assertEquals("{node2=[123]}", newNode.getEdges().toString());
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -65,10 +63,24 @@ public final class NodeTest {
         Node newNode = new Node("node1");
         assertNotNull(newNode);
         newNode.addEdge("node2", "123");
-        assertEquals("node2(123)", newNode.getEdges().toString());
+        assertEquals("{node2=[123]}", newNode.getEdges().toString());
 
         newNode.removeEdge("node2", "123");
-        assertEquals("", newNode.getEdges().toString());
+        assertEquals("{}", newNode.getEdges().toString());
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+    ////  removeChild
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void testRemoveChild() {
+        Node newNode = new Node("node1");
+        assertNotNull(newNode);
+        newNode.addEdge("node2", "123");
+        assertEquals("{node2=[123]}", newNode.getEdges().toString());
+        newNode.removeChild("node2");
+        assertEquals("{}", newNode.getEdges().toString());
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////

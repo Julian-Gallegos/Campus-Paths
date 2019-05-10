@@ -7,9 +7,11 @@ import java.util.*;
  */
 public class Graph {
 
+    // For more in depth checkRep.
+    private static final boolean DEBUG = false;
 
     /** The set of nodes within the graph */
-    private Hashtable<String, Node> graph;
+    private Map<String, Node> graph;
 
     // Representation Invariant:
     // For all x, y; x != y: this.graph.get(x).getName() != this.graph.get(y).getName()
@@ -18,7 +20,7 @@ public class Graph {
     //
     // Arbitrary node x != null
     //
-    // x.name != null
+    // x.name != null && x.name != ""
     //
     // For any edge e, this.edgeExists(e) != true when this.listNodes.size() < 2
     //
@@ -55,21 +57,23 @@ public class Graph {
      * @throws NullPointerException if name input is null.
      */
     public void addNode(String name) {
+        this.checkRep();
         graph.put(name, new Node(name));
         this.checkRep();
     }
 
-    /** Adds a new edge from one Node to another Node in Graph.
+    /** Adds a new edge from one Node to another Node in Graph. Does nothing if edge with same label from parent to
+     *  child node already exists.
      * @param parent - Name of parent Node for the new edge.
      * @param child - Name of child Node for the new edge.
      * @param edge - Label for the new edge.
      * @spec.requires Child exists in graph.
-     * @throws RuntimeException if edge with same label already exists between parent and child.
      * @throws NullPointerException if parent input value is null.
      * @spec.modifies this.graph
      * @spec.effects Add an edge to Node a that travels to the child Node b.
      */
     public void addEdge(String parent, String child, String edge) {
+        this.checkRep();
         this.graph.get(parent).addEdge(child, edge);
         this.checkRep();
 ;    }
@@ -82,10 +86,12 @@ public class Graph {
      *               all of the edges going to and from it.
      */
     public void removeNode(String name) {
+        this.checkRep();
         this.graph.remove(name);
         for (Node node : this.graph.values()) {
             node.removeChild(name);
         }
+        this.checkRep();
     }
 
     /** Removes an edge from the Graph. Does nothing if Nodes parent or child or edge does not exist on the graph.
@@ -98,7 +104,9 @@ public class Graph {
      *               to child in this.graph.
      */
     public void removeEdge(String parent, String child, String edge) {
+        this.checkRep();
         this.graph.get(parent).removeEdge(child, edge);
+        this.checkRep();
     }
 
     /** Returns true if the specified node exists in the graph.
@@ -113,16 +121,17 @@ public class Graph {
         return false;
     }
 
-    /** Returns true if the specified edge exists in the graph
+    /** Returns true if the specified edge exists in the graph from parent node to child node
      * @param parent - the node that "edge" is coming from.
      * @param child - the node that "edge" is going to.
      * @param edge - edge from parent node to child node that we are checking for in the graph.
-     * @throws NullPointerException if parent input is null.
      * @return true is "edge" is in the graph, false otherwise.
      */
     public boolean edgeExists(String parent, String child, String edge) {
-        if (this.graph.get(parent).getEdges().get(child).contains(edge)) {
-            return true;
+        if (this.graph.containsKey(parent)) {
+            if (this.graph.get(parent).getEdges().get(child).contains(edge)) {
+                return true;
+            }
         }
         return false;
     }
@@ -156,9 +165,7 @@ public class Graph {
      */
     public List<String> listNodes() {
         ArrayList<String> nodeList = new ArrayList<String>();
-        for (Node node : this.graph.values()) {
-            nodeList.add(node.getName());
-        }
+        nodeList.addAll(this.graph.keySet());
         nodeList.sort(String.CASE_INSENSITIVE_ORDER);
         return nodeList;
     }
@@ -173,33 +180,38 @@ public class Graph {
 
     /** Throws an exception if the representation invariant is violated. */
     private void checkRep() {
-        Iterator<Node> iter = this.graph.values().iterator();
-        Node n = iter.next();
-        while (iter.hasNext()) {
-            // Check node is not null
-            assert n != null;
 
-            // Check node name is not null
-            assert n.getName()!= null;
+        if (DEBUG) {
+            for (Node n : graph.values()) {
+                // Check node is not null
+                assert n != null;
 
-            // Check unique edge labels
-            for (List<String> edgeList : n.getEdges().values()) {
-                for (int edge1 = 0; edge1 < edgeList.size(); edge1++) {
-                    for (int edge2 = edge1 + 1; edge2 < edgeList.size(); edge2++) {
-                        assert edgeList.get(edge1) != edgeList.get(edge2);
+                // Check node name is not null
+                assert !(n.getName() == null || n.getName() == "");
+
+                // Check unique edge labels
+                for (List<String> edgeList : n.getEdges().values()) {
+                    for (int edge1 = 0; edge1 < edgeList.size(); edge1++) {
+                        for (int edge2 = edge1 + 1; edge2 < edgeList.size(); edge2++) {
+                            assert edgeList.get(edge1) != edgeList.get(edge2);
+                        }
+                    }
+                }
+
+                // Check no edges if node count < 2
+                if (this.listNodes().size() < 2) {
+                    assert n.getEdges().size() == 0;
+                }
+
+                // Check each node name is unique
+                ArrayList<String> tempList = new ArrayList<String>();
+                tempList.addAll(this.graph.keySet());
+                for (int node1 = 0; node1 < tempList.size(); node1++) {
+                    for (int node2 = node1 + 1; node2 < tempList.size(); node2++) {
+                        assert tempList.get(node1) != tempList.get(node2);
                     }
                 }
             }
-
-            // Check no edges if node count < 2
-            if (this.listNodes().size() < 2) {
-                assert n.getEdges().size() == 0;
-            }
-
-            // Check each node name unique.
-            Node n2 = iter.next();
-            assert n.getName() != n2.getName();
-            n = n2;
         }
     }
 

@@ -1,9 +1,9 @@
 # Tests that an edge can be created between a parent node and a child node.
 
 # Create an empty graph
-CreateEmptyGraph graph1
+CreateGraph graph1
 
-# Add a pair of nodes
+# Add nodes to a graph
 AddNode graph1 node1
 AddNode graph1 node2
 

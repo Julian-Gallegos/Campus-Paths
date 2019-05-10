@@ -4,21 +4,41 @@ a.) In two or three sentences, explain an advantage and a disadvantage of each r
     (for example, in terms of runtime complexity, space complexity, or ease of implementation).
 
 Collection of edges:
-Not sure, but probably slower run times, also probably not as space efficient as adjacency matrix with dense graph.
+A collection of edges generally should allow for a O(1) run time when adding edges, very fast compared to a matrix or
+list, but if we ever want to look up any information on edges, we will have a much longer run time than we would with
+a list of matrix.
 
 Adjacency list:
 For large sparse graph (graphs with few edges), an adjacency list requires less storage space than an adjacency matrix,
-as it does not use any space to represent edges that are not present.
+as it does not use any space to represent edges that are not present. The list will also have better run times in some
+cases when the graph is sparse.
 
 Adjacency matrix:
 For more dense graphs, an adjacency matrix is more space efficient than an adjacency list, due to the compact memory
 storage style it uses. This compact storage also encourages locality of reference, that is, it takes advantage of how
 a processor fetches data that has been called, noting the likelihood that the memory around that data may also
-be accessed.
+be accessed. The run times for a matrix will be better than a list when the graph is more dense
 
 b.)
 
 Adjacency list:
-I chose this as I cannot be sure of the density of my graph, and therefore assume it will more often than not be more
-sparse. (Say something about runtimes too). Both adjacency list and adjacency matrix seem to be equally challenging
-to implement, so that was not a factor in my comparison.
+I chose (based my implementation around) this as I cannot be sure of the density of my graph,
+and therefore assume it will more often than not be more sparse.
+Assuming my implementation still runs similarly to a typical adjacency list implementation, the graph will
+have better run times when it has many nodes but few edges.
+Both adjacency list and adjacency matrix seem to be equally challenging to implement,
+so my decision on implementation was not decided by challenge.
+
+Problem 4:
+ -Included tests for all of my methods in graph (Aside from checkRep), as I failed to do that before.
+ - -This is particularly important for methods like nodeExists or listNodes, as other tests rely on them.
+
+ -listNodes(), listChildren(), and listOutEdges() from Graph class now return lists, instead of Strings, because logic.
+
+ -Added removeChild() method in Node class, as I needed an easy way to remove edges to a node for the Graph class'
+    removeNode() method.
+ - -I am now also testing removeChild() as it is important for keeping graph data consistent.
+
+ -Removed nodeCount() method from Graph class, as it was too similar to listNodes().
+
+ -Included many throws statements to account for null input cases for methods. Specification should be thorough.

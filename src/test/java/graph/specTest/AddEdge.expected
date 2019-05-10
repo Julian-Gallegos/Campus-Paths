@@ -1,9 +1,9 @@
 # Tests that an edge can be created between a parent node and a child node.
 
-#Create an empty graph
+# Create an empty graph
 created graph graph1
 
-# Add node to a graph
+# Add nodes to a graph
 added node node1 to graph1
 added node node2 to graph1
 

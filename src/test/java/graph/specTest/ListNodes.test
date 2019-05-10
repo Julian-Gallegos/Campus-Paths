@@ -1,7 +1,7 @@
 # Tests that the list of nodes in a graph can be printed out
 
 # Create an empty graph
-CreateEmptyGraph graph1
+CreateGraph graph1
 
 # Add a pair of nodes
 AddNode graph1 node1
