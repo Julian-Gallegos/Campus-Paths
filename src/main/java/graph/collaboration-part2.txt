@@ -1,0 +1,2 @@
+Ziggie Rai:
+I asked general questions about designing a spec, and java library behavior.

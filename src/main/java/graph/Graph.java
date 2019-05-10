@@ -143,6 +143,7 @@ public class Graph {
      * @return Sorted list of node names.
      */
     public List<String> listChildren(String name) {
+        Map<String, List<String>> list = this.graph.get(name).getEdges();
         ArrayList<String> nodeList = new ArrayList<String>();
         nodeList.addAll(this.graph.get(name).getEdges().keySet());
         nodeList.sort(String.CASE_INSENSITIVE_ORDER);
