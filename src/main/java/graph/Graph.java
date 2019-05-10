@@ -155,7 +155,7 @@ public class Graph {
      * @param name - Name of parent Node to get list of out edges from.
      * @spec.requires Node "name" exists in this graph.
      * @throws NullPointerException if input is null.
-     * @return The Map<node name String, list<String> edges> from Node name.
+     * @return A Map with key node name, and value list edgelabels from Node name.
      */
     public Map<String, List<String>> listOutEdges(String name) {
         return this.graph.get(name).getEdges();
