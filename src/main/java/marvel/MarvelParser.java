@@ -11,13 +11,12 @@
 
 package marvel;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Iterator;
 
 /** Parser utility to load the Marvel Comics dataset. */
 public class MarvelParser {
@@ -27,11 +26,31 @@ public class MarvelParser {
    * comic book the character appeared in, separated by a tab character
    *
    * @spec.requires filename is a valid file path
+   * @throws FileNotFoundException if filename does not exist/cannot be found.
    * @param filename the file that will be read
+   * @return An iterator of of the list of HeroModel beans created
    */
-  // TODO: Pick your return type and document it
-  public static void parseData(String filename) {
-    // TODO: Complete this method
-    // Hint: You might want to create a new class to use with the CSV Parser
+  public static Iterator<HeroModel> parseData(String filename) throws FileNotFoundException {
+    try {
+      Reader reader = Files.newBufferedReader(Paths.get(filename));
+      CsvToBean<HeroModel> tsvToBean = new CsvToBeanBuilder(reader)
+              .withType(HeroModel.class)
+              .withIgnoreLeadingWhiteSpace(true)
+              .withSeparator('\t')
+              .build();
+
+      return tsvToBean.iterator();
+
+    }
+    catch(FileNotFoundException e) {
+      e.printStackTrace();
+      System.out.println(filename + ": file not found");
+      System.exit(1);
+    }
+    catch(IOException e) {
+      e.printStackTrace();
+      System.exit(1);
+    }
+    return null;
   }
 }
