@@ -21,6 +21,8 @@ import java.util.Iterator;
 /** Parser utility to load the Marvel Comics dataset. */
 public class MarvelParser {
 
+  // Not an ADT, so no rep invariant or abstraction function.
+
   /**
    * Reads the Marvel Universe dataset. Each line of the input file contains a character name and a
    * comic book the character appeared in, separated by a tab character
