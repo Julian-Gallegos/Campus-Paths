@@ -146,7 +146,7 @@ public class Graph {
         Map<String, List<String>> list = this.graph.get(name).getEdges();
         ArrayList<String> nodeList = new ArrayList<String>();
         nodeList.addAll(this.graph.get(name).getEdges().keySet());
-        nodeList.sort(String.CASE_INSENSITIVE_ORDER);
+        nodeList.sort(String::compareTo);
         return nodeList;
     }
 
@@ -167,7 +167,7 @@ public class Graph {
     public List<String> listNodes() {
         ArrayList<String> nodeList = new ArrayList<String>();
         nodeList.addAll(this.graph.keySet());
-        nodeList.sort(String.CASE_INSENSITIVE_ORDER);
+        nodeList.sort(String::compareTo);
         return nodeList;
     }
 

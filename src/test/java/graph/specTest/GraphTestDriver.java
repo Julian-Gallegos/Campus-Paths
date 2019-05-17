@@ -206,7 +206,7 @@ public class GraphTestDriver {
         List<String> nodeList = g.listChildren(parentName);
         output.print("the children of " + parentName + " in " + graphName + " are:");
         for (String node : nodeList) {
-            list.get(node).sort(String.CASE_INSENSITIVE_ORDER);
+            list.get(node).sort(String::compareTo);
             for (String edge : list.get(node)) {
                 output.print(" " + node + "(" + edge + ")");
             }
