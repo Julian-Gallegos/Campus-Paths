@@ -1,0 +1,6 @@
+# Test the parser on a graph that contains several nodes
+# with two edges each.
+# Then finds a path from one node to another node
+
+LoadGraph heroes staffSuperheroes.tsv
+FindPath heroes Notkin-of-the-Superhuman-Beard Grossman-the-Youngest-of-them-all

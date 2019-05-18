@@ -20,8 +20,6 @@ public class Graph {
     //
     // Arbitrary node x != null
     //
-    // x.name != null && x.name != ""
-    //
     // For any edge e, this.edgeExists(e) != true when this.listNodes.size() < 2
     //
     //
@@ -53,7 +51,6 @@ public class Graph {
      * @spec.requires node has a unique name
      * @spec.modifies this.graph
      * @spec.effects Adds a new Node "node" to this.graph.
-     * @throws RuntimeException if input is zero length string.
      * @throws NullPointerException if name input is null.
      */
     public void addNode(String name) {
@@ -143,7 +140,6 @@ public class Graph {
      * @return Sorted list of node names.
      */
     public List<String> listChildren(String name) {
-        Map<String, List<String>> list = this.graph.get(name).getEdges();
         ArrayList<String> nodeList = new ArrayList<String>();
         nodeList.addAll(this.graph.get(name).getEdges().keySet());
         nodeList.sort(String::compareTo);
@@ -188,7 +184,7 @@ public class Graph {
                 assert n != null;
 
                 // Check node name is not null
-                assert !(n.getName() == null || n.getName() == "");
+                assert !(n.getName() == null);
 
                 // Check unique edge labels
                 for (List<String> edgeList : n.getEdges().values()) {

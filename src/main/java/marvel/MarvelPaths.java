@@ -2,6 +2,7 @@ package marvel;
 
 import graph.Graph;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 import static marvel.MarvelParser.parseData;
 
@@ -15,19 +16,18 @@ public class MarvelPaths {
         Map<String, List<String>> heroSet = new HashMap<String, List<String>>();
          while(heroIt.hasNext()) {
              HeroModel model = heroIt.next();
-             heroSet.put(model.getHero(), new ArrayList<String>());
+             if (!heroSet.containsKey(model.getBook())) {
+                 heroSet.put(model.getBook(), new ArrayList<String>());
+             }
              graph.addNode(model.getHero());
-             heroSet.get(model.getHero()).add(model.getBook());
+             heroSet.get(model.getBook()).add(model.getHero());
          }
-         List tmpList = graph.listNodes();
-         for (int i = 0; i < tmpList.size(); i++) {
-             for (int k = i; k < tmpList.size(); k++) {
-                 for (String book : heroSet.get(tmpList.get(i))) {
-                     for (String book2 : heroSet.get(tmpList.get(k))) {
-                         if (book == book2) {
-                             graph.addEdge(tmpList.get(i).toString(), tmpList.get(k).toString(), book);
-                             graph.addEdge(tmpList.get(k).toString(), tmpList.get(i).toString(), book);
-                         }
+         for (String book : heroSet.keySet()) {
+             for (String hero1 : heroSet.get(book)) {
+                 for (String hero2 : heroSet.get(book)) {
+                     if (!hero1.equals(hero2)) {
+                         graph.addEdge(hero1, hero2, book);
+                         graph.addEdge(hero2, hero1, book);
                      }
                  }
              }
@@ -35,21 +35,18 @@ public class MarvelPaths {
          return graph;
     }
 
-    public static List<Path> ShortestPathBFS(Graph graph, String starting_node, String destination_node) {
-        String start = starting_node;
-        String dest = destination_node;
-        Queue<String> worklist = new LinkedList<String>();  // queue, or "worklist", of nodes to visit: initially empty
-        Map<String, List<Path>> map = new HashMap<String, List<Path>>();  // map from nodes to paths: initially empty.
+    public static Queue<Path> ShortestPathBFS(Graph graph, String starting_node, String destination_node) {
+        Queue<String> worklist = new LinkedList<>();  // queue, or "worklist", of nodes to visit: initially empty
+        Map<String, Queue<Path>> map = new HashMap<>();  // map from nodes to paths: initially empty.
         // Each key in map is a visited node.
         // Each value is a path from start to that node.
         // A path is a list; you decide whether it is a list of nodes, or edges,
         // or node data, or edge data, or nodes and edges, or something else.
-
-        worklist.add(start);  // Add start to worklist
-        map.put(start, new ArrayList<Path>());  // Add start->[] to map (start mapped to an empty list)
+        worklist.add(starting_node);  // Add start to worklist
+        map.put(starting_node, new LinkedList<>());  // Add start->[] to map (start mapped to an empty list)
         while (!worklist.isEmpty()) {  // Q is not empty:
             String next = worklist.remove();  // dequeue next node in worklist
-            if (next == dest) {  // If node "next" is node "dest"
+            if (next.equals(destination_node)) {  // If node "next" is node "dest"
                 return map.get(next); // the path associated with next in map
             }
             for (String childNode : graph.listChildren(next)) {
@@ -57,7 +54,10 @@ public class MarvelPaths {
                     List<String> edges = graph.listOutEdges(next).get(childNode);
                     edges.sort(String::compareTo);
                     String edge = edges.get(0);
-                    List<Path> path = map.get(next);  // let path be the path next maps to in map
+                    Queue<Path> path = new LinkedList<>();
+                    for (Path aPath : map.get(next)) {
+                        path.add(aPath);  // let path be the path next maps to in map
+                    }
                     path.add(new Path(next, childNode, edge));
                     map.put(childNode, path);  // add childNode->path to map
                     worklist.add(childNode);  // add childNode to worklist
@@ -73,16 +73,63 @@ public class MarvelPaths {
 
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-        if (args.length != 3) {
-            System.out.println("Error. Incorrect input count. Usage:");
-            System.out.println("java marvel.MarvelPaths <file to read from> <start of path character> <character end path>");
-            return;
+        String file = "src/test/resources/marvel/data/marvel.tsv";
+
+        Graph newGraph = CreateAndLoadGraph(file);
+
+
+        System.out.println("MarvelPaths allows the user to request a path from one comic book character to another");
+        System.out.println("This path uses comic books each character has been in to traverse through a graph");
+        System.out.println("The graph connects characters together through the issues they both appeared in\n");
+
+        System.out.println("Enter a Marvel comic book character to get started, or type 'done' when finished");
+
+        Scanner console = new Scanner(System.in);
+        boolean isDone = false;
+        String stream = "";
+        String character1;
+        String character2;
+
+        while (!stream.equals("done")){
+            stream = console.nextLine();
+            if (!stream.equals("done")) {
+                System.out.println(stream + " Set as the starting Marvel Character");
+                character1 = stream;
+                System.out.println("Now set the destination character, or type 'done' to finish");
+                System.out.println("MarvelPaths will then begin creating a path between the two characters\n");
+                stream = console.nextLine();
+                if (!stream.equals("done")) {
+                    character2 = stream;
+
+                    System.out.println("Creating path...");
+                    Queue<Path> paths = ShortestPathBFS(newGraph, character1, character2);
+
+                    System.out.println("path from " + character1 + " to " + character2 + ":");
+                    boolean bool1 = newGraph.nodeExists(character1);
+                    boolean bool2 = newGraph.nodeExists(character2);
+                    if (!(bool1 && bool2)) {
+                        if (!bool1) {
+                            System.out.println("unknown character " + character1);
+                        }
+                        if (!bool2) {
+                            System.out.println("unknown character " + character2);
+                        }
+                    } else if (paths != null) {
+                        for (Path path : paths) {
+                            System.out.println(path.getParent() + " to " + path.getChild() + " via " + path.getEdge());
+                        }
+                    } else {
+                        System.out.println("no path found");
+                    }
+                    System.out.println("Type another character to start from if you would like to create another path");
+                    System.out.println("Or just type 'done' if finished");
+                }
+            }
         }
-
-        String file = "src/test/resources/marvel/data/" + args[0];
-
+        console.close();
+        return;
 
     }
 

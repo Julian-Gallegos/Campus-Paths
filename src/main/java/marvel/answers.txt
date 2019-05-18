@@ -1,8 +1,10 @@
 CSE 331 Homework.  Answers to written questions.
 Edit this file to supply your answers.
 
-Name:  <replace this with your name>
+Name:  <Julian Gallegos>
 
 Briefly describe any changes made to your Graph ADT from HW 3-4 and why
 those changes were made below.  (See the HW6 assignment for details.)
+
+Just cleaned up some code, biggest change would be in my node class, which now accepts "" as a valid node name.
 

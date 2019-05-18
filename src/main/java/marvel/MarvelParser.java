@@ -35,7 +35,7 @@ public class MarvelParser {
   public static Iterator<HeroModel> parseData(String filename) throws FileNotFoundException {
     try {
       Reader reader = Files.newBufferedReader(Paths.get(filename));
-      CsvToBean<HeroModel> tsvToBean = new CsvToBeanBuilder(reader)
+      CsvToBean<HeroModel> tsvToBean = new CsvToBeanBuilder<HeroModel>(reader)
               .withType(HeroModel.class)
               .withIgnoreLeadingWhiteSpace(true)
               .withSeparator('\t')

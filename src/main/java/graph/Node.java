@@ -31,11 +31,11 @@ public class Node {
     /** Creates a new Node.
      * @param name Name of the new Node.
      * @spec.effects Constructs a new Node n with n.name = String a.
-     * @throws RuntimeException if input is null or a zero length string.
+     * @throws NullPointerException if input is null.
      */
     public Node(String name) {
-        if (name == null || name.equals("")) {
-            throw new RuntimeException("input must be a non-zero length string of characters");
+        if (name == null) {
+            throw new NullPointerException("input must be a string of characters");
         }
         this.name = name;
         this.list = new Hashtable<String, List<String>>();
@@ -43,14 +43,10 @@ public class Node {
     }
 
     /** Returns a copy of Node's set of edges.
-     * @return this.list if it is not null
-     *         else returns null.
+     * @return this.list
      */
     public Map<String, List<String>> getEdges() {
-        if (this.list != null) {
-            return this.list;
-        }
-        return null;
+        return this.list;
     }
 
     /** Returns the name of this Node.

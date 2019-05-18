@@ -1,0 +1,7 @@
+# Test the parser on a graph that contains several nodes
+# with two edges each.
+# Then finds a path from one node to another node
+
+loaded graph heroes
+path from Notkin-of-the-Superhuman-Beard to Grossman-the-Youngest-of-them-all:
+Notkin-of-the-Superhuman-Beard to Grossman-the-Youngest-of-them-all via CSE331

@@ -1,0 +1,4 @@
+Ziggie Rai:
+Discussed high level design ideas for our BFS path finders. Most specific thing we talked about was how the actual
+path should be represented, to which we agreed that a seperate path ADT made the most sense for ease of use with
+our MarvelTestDriver FindPath output.

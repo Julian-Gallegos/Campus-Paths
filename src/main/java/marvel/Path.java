@@ -11,7 +11,6 @@ public class Path {
     // Representation Invariant:
     // For all parent and child, parent != child
     // parent, child, and edge != null
-    // parent, child, and edge != ""
     //
     //
     // Abstraction Function:
@@ -45,12 +44,7 @@ public class Path {
             assert this.edge != null;
 
             // Check parent != child;
-            assert this.parent.equals(this.child) == false;
-
-            // Check data members are not ""
-            assert this.parent != "";
-            assert this.child != "";
-            assert this.edge != "";
+            assert !this.parent.equals(this.child);
         }
     }
 }

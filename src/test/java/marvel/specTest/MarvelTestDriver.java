@@ -172,13 +172,12 @@ public class MarvelTestDriver {
   }
 
   private void findPath(String graphName, String node_1, String node_n) {
-    Graph newGraph = graphs.get(graphName);
-    List<Path> paths = MarvelPaths.ShortestPathBFS(newGraph, node_1, node_n);
     String node1 = node_1.replace("_", " ");
     String nodeN = node_n.replace("_", " ");
-    output.println("path from " + node1 + " to " + nodeN);
-    boolean bool1 = newGraph.nodeExists(node1);
-    boolean bool2 = newGraph.nodeExists(nodeN);
+    Queue<Path> paths = MarvelPaths.ShortestPathBFS(graphs.get(graphName), node1, nodeN);
+    output.println("path from " + node1 + " to " + nodeN + ":");
+    boolean bool1 = graphs.get(graphName).nodeExists(node1);
+    boolean bool2 = graphs.get(graphName).nodeExists(nodeN);
     if (!(bool1 && bool2)) {
       if (!bool1) {
         output.println("unknown character " + node1);
@@ -260,7 +259,6 @@ public class MarvelTestDriver {
   }
 
   private void listChildren(String graphName, String parentName) {
-    // Insert your code here. the children of n1 in graph1 are: n2(e1)
     Graph g = graphs.get(graphName);
     Map<String, List<String>> list = g.listOutEdges(parentName);
     List<String> nodeList = g.listChildren(parentName);
