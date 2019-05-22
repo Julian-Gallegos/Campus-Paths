@@ -103,25 +103,29 @@ public class MarvelPaths {
                 if (!stream.equals("done")) {
                     character2 = stream;
 
-                    System.out.println("Creating path...");
-                    Queue<Path> paths = ShortestPathBFS(newGraph, character1, character2);
-
-                    System.out.println("path from " + character1 + " to " + character2 + ":");
                     boolean bool1 = newGraph.nodeExists(character1);
                     boolean bool2 = newGraph.nodeExists(character2);
-                    if (!(bool1 && bool2)) {
+
+                    System.out.println("Creating path...\n");
+
+                    System.out.println("path from " + character1 + " to " + character2 + ":");
+                    if ((bool1 && bool2)) {
+                        Queue<Path> paths = ShortestPathBFS(newGraph, character1, character2);
+                         if (paths != null) {
+                            for (Path path : paths) {
+                                System.out.println(path.getParent() + " to " + path.getChild() + " via " + path.getEdge());
+                            }
+                        } else {
+                            System.out.println("no path found");
+                        }
+                    } else {
                         if (!bool1) {
                             System.out.println("unknown character " + character1);
                         }
                         if (!bool2) {
                             System.out.println("unknown character " + character2);
                         }
-                    } else if (paths != null) {
-                        for (Path path : paths) {
-                            System.out.println(path.getParent() + " to " + path.getChild() + " via " + path.getEdge());
-                        }
-                    } else {
-                        System.out.println("no path found");
+                        System.out.println();
                     }
                     System.out.println("Type another character to start from if you would like to create another path");
                     System.out.println("Or just type 'done' if finished");
