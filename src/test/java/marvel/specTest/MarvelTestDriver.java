@@ -64,7 +64,7 @@ public class MarvelTestDriver {
   }
 
   /** String -> Graph: maps the names of graphs to the actual graph **/
-  private final Map<String, Graph> graphs = new HashMap<String, Graph>();
+  private final Map<String, Graph<String>> graphs = new HashMap<>();
 
   private final PrintWriter output;
   private final BufferedReader input;
@@ -139,7 +139,7 @@ public class MarvelTestDriver {
   }
 
   private void createGraph(String graphName) {
-    graphs.put(graphName, new Graph());
+    graphs.put(graphName, new Graph<>());
     output.println("created graph " + graphName);
   }
 
@@ -155,7 +155,7 @@ public class MarvelTestDriver {
 
   private void loadGraph(String graphName, String fileName) throws FileNotFoundException {
     String file = "src/test/resources/marvel/data/" + fileName;
-    Graph newGraph = MarvelPaths.CreateAndLoadGraph(file);
+    Graph<String> newGraph = MarvelPaths.CreateAndLoadGraph(file);
     graphs.put(graphName, newGraph);
     output.println("loaded graph " + graphName);
   }
@@ -259,7 +259,7 @@ public class MarvelTestDriver {
   }
 
   private void listChildren(String graphName, String parentName) {
-    Graph g = graphs.get(graphName);
+    Graph<String> g = graphs.get(graphName);
     Map<String, List<String>> list = g.listOutEdges(parentName);
     List<String> nodeList = g.listChildren(parentName);
     output.print("the children of " + parentName + " in " + graphName + " are:");

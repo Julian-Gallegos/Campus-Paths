@@ -28,7 +28,7 @@ public final class GraphTest {
         Graph newGraph = new Graph();
         assertEquals(0, newGraph.listNodes().size());
 
-        Graph newGraph2 = new Graph("node1");
+        Graph<String> newGraph2 = new Graph<>("node1");
         assertEquals(1, newGraph2.listNodes().size());
     }
 
@@ -38,7 +38,7 @@ public final class GraphTest {
 
     @Test
     public void testAddNode() {
-        Graph newGraph = new Graph();
+        Graph<String> newGraph = new Graph<String>();
 
         newGraph.addNode("node1");
         assertEquals(1, newGraph.listNodes().size());
@@ -51,7 +51,7 @@ public final class GraphTest {
 
     @Test
     public void testAddExistingNode() {
-        Graph newGraph = new Graph();
+        Graph<String> newGraph = new Graph<String>();
 
         newGraph.addNode("node1");
         assertEquals(1, newGraph.listNodes().size());
@@ -68,7 +68,7 @@ public final class GraphTest {
 
     @Test
     public void testNodeExists() {
-        Graph newGraph = new Graph();
+        Graph<String> newGraph = new Graph<>();
 
         newGraph.addNode("node1");
         assertEquals(1, newGraph.listNodes().size());
@@ -83,7 +83,7 @@ public final class GraphTest {
 
     @Test
     public void testEdgeExists() {
-        Graph newGraph = new Graph();
+        Graph<String> newGraph = new Graph<>();
 
         newGraph.addNode("node1");
         assertEquals(1, newGraph.listNodes().size());
@@ -104,7 +104,7 @@ public final class GraphTest {
 
     @Test
     public void testRemoveNode() {
-        Graph newGraph = new Graph();
+        Graph<String> newGraph = new Graph<>();
         newGraph.addNode("node1");
         assertEquals(1, newGraph.listNodes().size());
         assertTrue(newGraph.nodeExists("node1"));
@@ -123,7 +123,7 @@ public final class GraphTest {
 
     @Test
     public void testRemoveNodeWhenNoNode() {
-        Graph newGraph = new Graph();
+        Graph<String> newGraph = new Graph<>();
 
         newGraph.removeNode("node1");
         assertFalse(newGraph.nodeExists("node1"));
@@ -135,7 +135,7 @@ public final class GraphTest {
 
     @Test
     public void testAddEdge() {
-        Graph newGraph = new Graph();
+        Graph<String> newGraph = new Graph<>();
         newGraph.addNode("node1");
         assertEquals(1, newGraph.listNodes().size());
         assertTrue(newGraph.nodeExists("node1"));
@@ -159,7 +159,7 @@ public final class GraphTest {
 
     @Test
     public void testRemoveEdge() {
-        Graph newGraph = new Graph();
+        Graph<String> newGraph = new Graph<>();
         newGraph.addNode("node1");
         assertEquals(1, newGraph.listNodes().size());
         assertTrue(newGraph.nodeExists("node1"));
@@ -181,7 +181,7 @@ public final class GraphTest {
 
     @Test
     public void testListChildren() {
-        Graph newGraph = new Graph();
+        Graph<String> newGraph = new Graph<String>();
         newGraph.addNode("node1");
         assertEquals(1, newGraph.listNodes().size());
         assertTrue(newGraph.nodeExists("node1"));
@@ -196,7 +196,7 @@ public final class GraphTest {
         newGraph.addEdge("node1", "node3", "123");
         assertTrue(newGraph.edgeExists("node1", "node3", "123"));
 
-        assertEquals("[node2, node3]", newGraph.listChildren("node1").toString());
+        assertEquals("[node3, node2]", newGraph.listChildren("node1").toString());
 
     }
 
@@ -206,7 +206,7 @@ public final class GraphTest {
 
     @Test
     public void testListNodes() {
-        Graph newGraph = new Graph();
+        Graph<String> newGraph = new Graph<>();
         assertEquals("[]", newGraph.listNodes().toString());
         assertTrue(newGraph.listNodes().isEmpty());
 
@@ -216,21 +216,9 @@ public final class GraphTest {
         newGraph.addNode("node2");
         assertEquals(2, newGraph.listNodes().size());
 
-        assertEquals("[node1, node2]", newGraph.listNodes().toString());
+        assertEquals("[node2, node1]", newGraph.listNodes().toString());
 
         assertTrue(newGraph.listNodes().contains("node1") && newGraph.listNodes().contains("node2"));
-    }
-
-    @Test
-    public void testAlphabeticalNodeList() {
-        Graph newGraph = new Graph("c");
-        newGraph.addNode("b");
-        newGraph.addNode("d");
-        newGraph.addNode("a");
-        newGraph.addNode("e");
-        newGraph.addNode("f");
-
-        assertEquals("[a, b, c, d, e, f]", newGraph.listNodes().toString());
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -239,7 +227,7 @@ public final class GraphTest {
 
     @Test
     public void testListOutEdges() {
-        Graph newGraph = new Graph();
+        Graph<String> newGraph = new Graph<String>();
         newGraph.addNode("node1");
         assertEquals(1, newGraph.listNodes().size());
         assertTrue(newGraph.nodeExists("node1"));
@@ -265,7 +253,7 @@ public final class GraphTest {
 
     @Test
     public void testClear() {
-        Graph newGraph = new Graph();
+        Graph<String> newGraph = new Graph<>();
         newGraph.addNode("node1");
         assertEquals(1, newGraph.listNodes().size());
         assertTrue(newGraph.nodeExists("node1"));

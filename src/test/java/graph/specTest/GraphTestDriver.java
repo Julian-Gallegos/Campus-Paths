@@ -52,8 +52,7 @@ public class GraphTestDriver {
     }
 
     /** String -> Graph: maps the names of graphs to the actual graph **/
-    //TODO for the student: Parameterize the next line correctly.
-    private final Map<String, Graph> graphs = new HashMap<String, Graph>();
+    private final Map<String, Graph<String>> graphs = new HashMap<>();
 
     private final PrintWriter output;
     private final BufferedReader input;
@@ -132,7 +131,7 @@ public class GraphTestDriver {
     }
 
     private void createGraph(String graphName) {
-        graphs.put(graphName, new Graph());
+        graphs.put(graphName, new Graph<>());
         output.println("created graph "+graphName);
     }
 
@@ -182,6 +181,7 @@ public class GraphTestDriver {
 
     private void listNodes(String graphName) {
         List<String> list = graphs.get(graphName).listNodes();
+        list.sort(String::compareTo);
         output.print(graphName + " contains:");
         for (String node : list) {
             output.print(" " + node);
@@ -201,9 +201,10 @@ public class GraphTestDriver {
 
     private void listChildren(String graphName, String parentName) {
         // Insert your code here. the children of n1 in graph1 are: n2(e1)
-        Graph g = graphs.get(graphName);
+        Graph<String> g = graphs.get(graphName);
         Map<String, List<String>> list = g.listOutEdges(parentName);
         List<String> nodeList = g.listChildren(parentName);
+        nodeList.sort(String::compareTo);
         output.print("the children of " + parentName + " in " + graphName + " are:");
         for (String node : nodeList) {
             list.get(node).sort(String::compareTo);
