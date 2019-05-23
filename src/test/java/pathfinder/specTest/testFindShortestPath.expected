@@ -1,0 +1,43 @@
+# Find a path with Dijkstra's algorithm when
+# there are four different paths
+
+created graph simpleGraph
+
+added node A to simpleGraph
+added node B to simpleGraph
+
+added node Aa to simpleGraph
+added node Ab to simpleGraph
+added node Ac to simpleGraph
+
+added node Ba to simpleGraph
+added node Bb to simpleGraph
+added node Bc to simpleGraph
+
+added node Ca to simpleGraph
+added node Cb to simpleGraph
+added node Cc to simpleGraph
+
+added edge 15.000 from A to B in simpleGraph
+
+added edge 3.000 from A to Aa in simpleGraph
+added edge 3.000 from Aa to Ab in simpleGraph
+added edge 3.000 from Ab to Ac in simpleGraph
+added edge 0.000 from Ac to B in simpleGraph
+
+added edge 1.000 from A to Ba in simpleGraph
+added edge 2.000 from Ba to Bb in simpleGraph
+added edge 3.000 from Bb to Bc in simpleGraph
+added edge 0.000 from Bc to B in simpleGraph
+
+added edge 5.000 from A to Ca in simpleGraph
+added edge 5.000 from Ca to Cb in simpleGraph
+added edge 5.000 from Cb to Cc in simpleGraph
+added edge 0.000 from Cc to B in simpleGraph
+
+path from A to B:
+A to Ba with weight 1.000
+Ba to Bb with weight 2.000
+Bb to Bc with weight 3.000
+Bc to B with weight 0.000
+total cost: 6.000

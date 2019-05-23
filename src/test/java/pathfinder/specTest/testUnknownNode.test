@@ -1,0 +1,13 @@
+# Find a path with Dijkstra's algorithm when
+# the starting node does not exist
+
+CreateGraph simpleGraph
+
+AddNode simpleGraph B
+AddNode simpleGraph C
+AddNode simpleGraph D
+
+AddEdge simpleGraph C D 1.0
+AddEdge simpleGraph D B 1.0
+
+FindPath simpleGraph A B

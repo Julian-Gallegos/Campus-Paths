@@ -174,24 +174,25 @@ public class MarvelTestDriver {
   private void findPath(String graphName, String node_1, String node_n) {
     String node1 = node_1.replace("_", " ");
     String nodeN = node_n.replace("_", " ");
-    Queue<Path> paths = MarvelPaths.ShortestPathBFS(graphs.get(graphName), node1, nodeN);
-    output.println("path from " + node1 + " to " + nodeN + ":");
     boolean bool1 = graphs.get(graphName).nodeExists(node1);
     boolean bool2 = graphs.get(graphName).nodeExists(nodeN);
-    if (!(bool1 && bool2)) {
+    output.println("path from " + node1 + " to " + nodeN + ":");
+    if (bool1 && bool2) {
+      Queue<Path> paths = MarvelPaths.ShortestPathBFS(graphs.get(graphName), node1, nodeN);
+      if (paths != null) {
+        for (Path path : paths) {
+          output.println(path.getParent() + " to " + path.getChild() + " via " + path.getEdge());
+        }
+      } else {
+        output.println("no path found");
+      }
+    } else {
       if (!bool1) {
         output.println("unknown character " + node1);
       }
       if (!bool2) {
         output.println("unknown character " + nodeN);
       }
-    }
-    else if (paths != null) {
-      for (Path path : paths) {
-        output.println(path.getParent() + " to " + path.getChild() + " via " + path.getEdge());
-      }
-    } else {
-      output.println("no path found");
     }
   }
 

@@ -1,0 +1,6 @@
+# Find a path with Dijkstra's algorithm when
+# the starting node and destination node do not exist
+
+CreateGraph simpleGraph
+
+FindPath simpleGraph A B
