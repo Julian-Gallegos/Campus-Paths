@@ -2,16 +2,16 @@ package graph;
 
 import java.util.*;
 
-public class Node<E> {
+public class Node<K, V> {
 
     private static final boolean DEBUG = false;
 
     // Name of this node.
-    private E name;
+    private K name;
 
     // Map of nodes this node has out edges to, with the keys being the other nodes' names and the values being the list
     // of edges going to the key node.
-    private Map<E, List<E>> list;
+    private Map<K, List<V>> list;
 
     // Representation Invariant:
     // For each edge "e" from this node to an arbitrary node x,
@@ -33,7 +33,7 @@ public class Node<E> {
      * @spec.effects Constructs a new Node n with n.name = String a.
      * @throws NullPointerException if input is null.
      */
-    public Node(E name) {
+    public Node(K name) {
         if (name == null) {
             throw new NullPointerException("input must be a string of characters");
         }
@@ -45,14 +45,14 @@ public class Node<E> {
     /** Returns a copy of Node's set of edges.
      * @return this.list
      */
-    public Map<E, List<E>> getEdges() {
+    public Map<K, List<V>> getEdges() {
         return this.list;
     }
 
     /** Returns the name of this Node.
      * @return this.name
      */
-    public E getName() {
+    public K getName() {
         return this.name;
     }
 
@@ -65,7 +65,7 @@ public class Node<E> {
      * @spec.effects If Node not in this.list, adds it as a key and the String representation of a edge to its value set.
      *               Otherwise adds the String edge to the value set for Node child in this.list
      */
-    public void addEdge(E child, E edge) {
+    public void addEdge(K child, V edge) {
         this.checkRep();
         if (this.list.containsKey(child)) {
             if (!this.list.get(child).contains(edge)) {
@@ -86,7 +86,7 @@ public class Node<E> {
      * @spec.effects Removes edge between this node and another node, if only edge connecting this node and child node,
      *               remove child node from map keys.
      */
-    public void removeEdge(E child, E edge) {
+    public void removeEdge(K child, V edge) {
         this.checkRep();
         this.list.get(child).remove(edge);
         if (this.list.get(child).isEmpty()) {
@@ -100,7 +100,7 @@ public class Node<E> {
      * @spec.modifies this.list
      * @spec.effects Remove key Node "name" from this.list, also remove the edges attached to it.
      */
-    public void removeChild(E name) {
+    public void removeChild(K name) {
         this.checkRep();
         this.list.remove(name);
         this.checkRep();
@@ -118,7 +118,7 @@ public class Node<E> {
             assert !(this.name == null || this.name == "");
 
             // Check unique edge labels
-            for (List<E> edgeList : this.list.values()) {
+            for (List<V> edgeList : this.list.values()) {
                 for (int edge1 = 0; edge1 < edgeList.size(); edge1++) {
                     for (int edge2 = edge1 + 1; edge2 < edgeList.size(); edge2++) {
                         assert edgeList.get(edge1) != edgeList.get(edge2);
@@ -126,7 +126,7 @@ public class Node<E> {
                 }
             }
 
-            for (List<E> edgeList : this.list.values()) {
+            for (List<V> edgeList : this.list.values()) {
                 assert edgeList.size() != 0;
             }
         }

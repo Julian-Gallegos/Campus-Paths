@@ -25,7 +25,7 @@ public final class NodeTest {
 
     @Test
     public void testCtor() {
-        Node<String> newNode = new Node<>("node1");
+        Node<String, String> newNode = new Node<>("node1");
         assertNotNull(newNode);
         assertEquals("node1", newNode.getName());
     }
@@ -36,7 +36,7 @@ public final class NodeTest {
 
     @Test
     public void testAddEdge() {
-        Node<String> newNode = new Node<>("node1");
+        Node<String, String> newNode = new Node<>("node1");
         assertNotNull(newNode);
 
         newNode.addEdge("node2", "123");
@@ -45,7 +45,7 @@ public final class NodeTest {
 
     @Test
     public void testAddExistingEdge() {
-        Node<String> newNode = new Node<>("node1");
+        Node<String, String> newNode = new Node<>("node1");
         assertNotNull(newNode);
         newNode.addEdge("node2", "123");
         assertEquals("{node2=[123]}", newNode.getEdges().toString());
@@ -60,7 +60,7 @@ public final class NodeTest {
 
     @Test
     public void testRemoveEdge() {
-        Node<String> newNode = new Node<>("node1");
+        Node<String, String> newNode = new Node<>("node1");
         assertNotNull(newNode);
         newNode.addEdge("node2", "123");
         assertEquals("{node2=[123]}", newNode.getEdges().toString());
@@ -75,7 +75,7 @@ public final class NodeTest {
 
     @Test
     public void testRemoveChild() {
-        Node<String> newNode = new Node<>("node1");
+        Node<String, String> newNode = new Node<>("node1");
         assertNotNull(newNode);
         newNode.addEdge("node2", "123");
         assertEquals("{node2=[123]}", newNode.getEdges().toString());
@@ -89,7 +89,7 @@ public final class NodeTest {
 
     @Test
     public void testGetName() {
-        Node<String> newNode = new Node<>("node1");
+        Node<String, String> newNode = new Node<>("node1");
         assertNotNull(newNode);
         assertEquals("node1", newNode.getName());
     }

@@ -10,14 +10,14 @@ public class MarvelPaths {
 
     // Not an ADT, so no rep invariant or abstraction function.
 
-    public static Graph<String> CreateAndLoadGraph(String filename) throws FileNotFoundException {
-        Graph<String> graph = new Graph<String>();
+    public static Graph<String, String> CreateAndLoadGraph(String filename) throws FileNotFoundException {
+        Graph<String, String> graph = new Graph<>();
         Iterator<HeroModel> heroIt = parseData(filename);
-        Map<String, List<String>> heroSet = new HashMap<String, List<String>>();
+        Map<String, List<String>> heroSet = new HashMap<>();
          while(heroIt.hasNext()) {
              HeroModel model = heroIt.next();
              if (!heroSet.containsKey(model.getBook())) {
-                 heroSet.put(model.getBook(), new ArrayList<String>());
+                 heroSet.put(model.getBook(), new ArrayList<>());
              }
              graph.addNode(model.getHero());
              heroSet.get(model.getBook()).add(model.getHero());
@@ -35,7 +35,7 @@ public class MarvelPaths {
          return graph;
     }
 
-    public static Queue<Path> ShortestPathBFS(Graph<String> graph, String starting_node, String destination_node) {
+    public static Queue<Path> ShortestPathBFS(Graph<String, String> graph, String starting_node, String destination_node) {
         Queue<String> worklist = new LinkedList<>();  // queue, or "worklist", of nodes to visit: initially empty
         Map<String, Queue<Path>> map = new HashMap<>();  // map from nodes to paths: initially empty.
         // Each key in map is a visited node.
@@ -77,7 +77,7 @@ public class MarvelPaths {
 
         String file = "src/test/resources/marvel/data/marvel.tsv";
 
-        Graph<String> newGraph = CreateAndLoadGraph(file);
+        Graph<String, String> newGraph = CreateAndLoadGraph(file);
 
 
         System.out.println("MarvelPaths allows the user to request a path from one comic book character to another");

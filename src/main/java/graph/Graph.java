@@ -5,13 +5,13 @@ import java.util.*;
 /**
  * This class represents a directed, weighted graph of nodes with unique names and string based edge labels.
  */
-public class Graph<E> {
+public class Graph<K, V> {
 
     // For more in depth checkRep.
     private static final boolean DEBUG = false;
 
     /** The set of nodes within the graph */
-    private Map<E, Node<E>> graph;
+    private Map<K, Node<K, V>> graph;
 
     // Representation Invariant:
     // For all x, y; x != y: this.graph.get(x).getName() != this.graph.get(y).getName()
@@ -40,7 +40,7 @@ public class Graph<E> {
      * @spec.requires Name of "node" is at least one character.
      * @spec.effects Constructs a new Graph g with Node "node" in g.graph.
      */
-    public Graph(E node) {
+    public Graph(K node) {
         this.graph = new Hashtable<>();
         this.graph.put(node, new Node<>(node));
         this.checkRep();
@@ -53,7 +53,7 @@ public class Graph<E> {
      * @spec.effects Adds a new Node "node" to this.graph.
      * @throws NullPointerException if name input is null.
      */
-    public void addNode(E name) {
+    public void addNode(K name) {
         this.checkRep();
         graph.put(name, new Node<>(name));
         this.checkRep();
@@ -69,7 +69,7 @@ public class Graph<E> {
      * @spec.modifies this.graph
      * @spec.effects Add an edge to Node a that travels to the child Node b.
      */
-    public void addEdge(E parent, E child, E edge) {
+    public void addEdge(K parent, K child, V edge) {
         this.checkRep();
         this.graph.get(parent).addEdge(child, edge);
         this.checkRep();
@@ -82,10 +82,10 @@ public class Graph<E> {
      * @spec.effects Removes the Node with name "name" from this.graph, as well as
      *               all of the edges going to and from it.
      */
-    public void removeNode(E name) {
+    public void removeNode(K name) {
         this.checkRep();
         this.graph.remove(name);
-        for (Node<E> node : this.graph.values()) {
+        for (Node<K, V> node : this.graph.values()) {
             node.removeChild(name);
         }
         this.checkRep();
@@ -100,7 +100,7 @@ public class Graph<E> {
      * @spec.effects Removes the edge with label "edge" coming from parent
      *               to child in this.graph.
      */
-    public void removeEdge(E parent, E child, E edge) {
+    public void removeEdge(K parent, K child, V edge) {
         this.checkRep();
         this.graph.get(parent).removeEdge(child, edge);
         this.checkRep();
@@ -111,7 +111,7 @@ public class Graph<E> {
      * @throws NullPointerException if nodeName input is null.
      * @return true is "nodeName" is in the graph, false otherwise.
      */
-    public boolean nodeExists(E nodeName) {
+    public boolean nodeExists(K nodeName) {
         return this.graph.containsKey(nodeName);
     }
 
@@ -121,20 +121,20 @@ public class Graph<E> {
      * @param edge - edge from parent node to child node that we are checking for in the graph.
      * @return true is "edge" is in the graph, false otherwise.
      */
-    public boolean edgeExists(E parent, E child, E edge) {
+    public boolean edgeExists(K parent, K child, V edge) {
         if (this.graph.containsKey(parent)) {
             return this.graph.get(parent).getEdges().get(child).contains(edge);
         }
         return false;
     }
 
-    /** Return an alphabetically sorted list of all the Node name's child Nodes.
+    /** Return a list of all the Node name's child Nodes.
      *  If Node name does not exist, returns an empty list.
      * @param name - Name of parent Node to get list of children from.
      * @throws NullPointerException if input is null
      * @return Sorted list of node names.
      */
-    public List<E> listChildren(E name) {
+    public List<K> listChildren(K name) {
         return new ArrayList<>(this.graph.get(name).getEdges().keySet());
     }
 
@@ -145,14 +145,14 @@ public class Graph<E> {
      * @throws NullPointerException if input is null.
      * @return A Map with key node name, and value list edgelabels from Node name.
      */
-    public Map<E, List<E>> listOutEdges(E name) {
+    public Map<K, List<V>> listOutEdges(K name) {
         return this.graph.get(name).getEdges();
     }
 
-    /** Returns a list of the names of all the nodes in the graph in alphabetic order.
-     * @return An alphabetically sorted list of node names
+    /** Returns a list of the names of all the nodes in the graph.
+     * @return A list of the representation of noode names.
      */
-    public List<E> listNodes() {
+    public List<K> listNodes() {
         return new ArrayList<>(this.graph.keySet());
     }
 
@@ -168,7 +168,7 @@ public class Graph<E> {
     private void checkRep() {
 
         if (DEBUG) {
-            for (Node<E> n : graph.values()) {
+            for (Node<K, V> n : graph.values()) {
                 // Check node is not null
                 assert n != null;
 
@@ -176,7 +176,7 @@ public class Graph<E> {
                 assert !(n.getName() == null);
 
                 // Check unique edge labels
-                for (List<E> edgeList : n.getEdges().values()) {
+                for (List<V> edgeList : n.getEdges().values()) {
                     for (int edge1 = 0; edge1 < edgeList.size(); edge1++) {
                         for (int edge2 = edge1 + 1; edge2 < edgeList.size(); edge2++) {
                             assert edgeList.get(edge1) != edgeList.get(edge2);
@@ -188,7 +188,7 @@ public class Graph<E> {
                 assert this.listNodes().size() >= 2 || n.getEdges().size() == 0;
 
                 // Check each node name is unique
-                ArrayList<E> tempList = new ArrayList<>(this.graph.keySet());
+                ArrayList<K> tempList = new ArrayList<>(this.graph.keySet());
                 for (int node1 = 0; node1 < tempList.size(); node1++) {
                     for (int node2 = node1 + 1; node2 < tempList.size(); node2++) {
                         assert tempList.get(node1) != tempList.get(node2);

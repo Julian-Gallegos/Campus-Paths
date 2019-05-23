@@ -52,7 +52,7 @@ public class GraphTestDriver {
     }
 
     /** String -> Graph: maps the names of graphs to the actual graph **/
-    private final Map<String, Graph<String>> graphs = new HashMap<>();
+    private final Map<String, Graph<String, String>> graphs = new HashMap<>();
 
     private final PrintWriter output;
     private final BufferedReader input;
@@ -201,7 +201,7 @@ public class GraphTestDriver {
 
     private void listChildren(String graphName, String parentName) {
         // Insert your code here. the children of n1 in graph1 are: n2(e1)
-        Graph<String> g = graphs.get(graphName);
+        Graph<String, String> g = graphs.get(graphName);
         Map<String, List<String>> list = g.listOutEdges(parentName);
         List<String> nodeList = g.listChildren(parentName);
         nodeList.sort(String::compareTo);
