@@ -1,0 +1,5 @@
+Ziggie Rai:
+More one way this time with discussion. Ziggie asked me some questions about generics but I don't remember the details,
+also asked me some questions about CampusPath and CampusBuilding,
+such as "are all the coordinates for buildings represented in the set of CampusPaths?" I said "I think so," so in
+retrospect I probably was not that helpful.

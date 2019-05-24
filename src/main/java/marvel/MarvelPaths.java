@@ -12,6 +12,9 @@ public class MarvelPaths {
 
     public static Graph<String, String> CreateAndLoadGraph(String filename) throws FileNotFoundException {
         Graph<String, String> graph = new Graph<>();
+
+
+
         Iterator<HeroModel> heroIt = parseData(filename);
         Map<String, List<String>> heroSet = new HashMap<>();
          while(heroIt.hasNext()) {

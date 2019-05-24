@@ -1,0 +1,5 @@
+Changed MarvelPaths' main to properly account for searching characters that do no exist in the graph, previously threw
+a null pointer exception.
+Did the same in the MarvelTestDriver's findPath method.
+
+Some small code cleanup throughout Graph and Node, but nothing changing implementation functionality or specifications.

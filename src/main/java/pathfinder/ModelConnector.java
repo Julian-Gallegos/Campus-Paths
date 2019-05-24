@@ -11,10 +11,18 @@
 
 package pathfinder;
 
+import graph.Graph;
 import pathfinder.datastructures.Path;
 import pathfinder.datastructures.Point;
-
+import pathfinder.parser.CampusBuilding;
+import pathfinder.parser.CampusPath;
+import pathfinder.parser.Dijkstra;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import static pathfinder.parser.CampusPathsParser.parseCampusBuildings;
+import static pathfinder.parser.CampusPathsParser.parseCampusPaths;
 
 /*
 In the pathfinder homework, the text user interface calls these methods to talk
@@ -33,6 +41,12 @@ different ways, without requiring a lot of work to change things over.
  */
 public class ModelConnector {
 
+  private Graph<Point, Double> graph;
+  private Map<String ,CampusBuilding> buildings;
+  private List<CampusPath> paths;
+
+  // This does not represent an ADT (I think?). Honestly not sure as it specifically uses the campus tsv and jpg data.
+
   /**
    * Creates a new {@link ModelConnector} and initializes it to contain data about
    * pathways and buildings or locations of interest on the campus of the University
@@ -40,13 +54,20 @@ public class ModelConnector {
    * and prepared, and any method may be called on this object to query the data.
    */
   public ModelConnector() {
-    // TODO: You'll want to do things like read in the campus data and assemble your graph.
     // Remember the tenets of design that you've learned. You shouldn't necessarily do everything
     // you need for the model in this one constructor, factor code out to helper methods or
     // classes to work with your design best. The only thing that needs to remain the
     // same is the name of this class and the four method signatures below, because the
     // Pathfinder application calls these methods in order to talk to your model.
     // Change and add anything else as you'd like.
+
+    buildings = new HashMap<>();
+    List<CampusBuilding> buildingData = parseCampusBuildings();
+    for (CampusBuilding building : buildingData) {
+      buildings.put(building.getShortName(), building);
+    }
+    paths = parseCampusPaths();
+    graph = loadGraph();
   }
 
   /**
@@ -54,9 +75,7 @@ public class ModelConnector {
    * @return {@literal true} iff the short name provided exists in this campus map.
    */
   public boolean shortNameExists(String shortName) {
-    // TODO: Implement this method to talk to your model, then remove the exception below.
-
-    throw new RuntimeException("shortNameExists not implemented yet.");
+    return buildings.containsKey(shortName);
   }
 
   /**
@@ -65,18 +84,21 @@ public class ModelConnector {
    * @throws IllegalArgumentException if the short name provided does not exist.
    */
   public String longNameForShort(String shortName) {
-    // TODO: Implement this method to talk to your model, then remove the exception below.
-
-    throw new RuntimeException("longNameForShort not implemented yet.");
+    if (!shortNameExists(shortName)) {
+      throw new IllegalArgumentException();
+    }
+    return buildings.get(shortName).getLongName();
   }
 
   /**
    * @return The mapping from all the buildings' short names to their long names in this campus map.
    */
   public Map<String, String> buildingNames() {
-    // TODO: Implement this method to talk to your model, then remove the exception below.
-
-    throw new RuntimeException("buildingNames not implemented yet.");
+    Map<String, String> retMap = new HashMap<>();
+    for (CampusBuilding building : buildings.values()) {
+      retMap.put(building.getShortName(), building.getLongName());
+    }
+    return retMap;
   }
 
   /**
@@ -91,9 +113,36 @@ public class ModelConnector {
    *                                  this campus map.
    */
   public Path<Point> findShortestPath(String startShortName, String endShortName) {
-    // TODO: Implement this method to talk to your model, then remove the exception below.
 
-    throw new RuntimeException("findShortestPath not implemented yet.");
+    if (startShortName == null || endShortName == null ||
+            !shortNameExists(startShortName) || !shortNameExists(endShortName)) {
+      throw new IllegalArgumentException();
+    }
+
+    Point startingPoint = new Point(buildings.get(startShortName).getX(), buildings.get(startShortName).getY());
+    Point endingPoint = new Point(buildings.get(endShortName).getX(), buildings.get(endShortName).getY());
+
+    return Dijkstra.findPath(graph, startingPoint, endingPoint);
+  }
+
+
+  /**
+   * Constructs a graph of points related to paths and buildings on a map, creates edges between points based on the
+   * information contained in the CampusPaths list "paths"
+   * @return a graph containing all the (x, y) points from paths as well as the connections between those points.
+   */
+  private  Graph<Point, Double> loadGraph() {
+    Graph<Point, Double> graph = new Graph<>();
+    for(CampusPath path : paths) {
+      Point point = new Point(path.getX1(), path.getY1());
+      graph.addNode(point);
+    }
+    for(CampusPath path : paths) {
+      Point point1 = new Point(path.getX1(), path.getY1());
+      Point point2 = new Point(path.getX2(), path.getY2());
+      graph.addEdge(point1, point2, path.getDistance());
+    }
+    return graph;
   }
 
 }

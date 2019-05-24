@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class Dijkstra {
 
-    // Not an ADT
+    // Not does not represent an ADT
 
     /** findPath returns the shortest path from a starting node to a destination node, evaluating the shortest path
      * based on the weighted double values of the edges between each node
@@ -31,7 +31,7 @@ public class Dijkstra {
             return cost1.compareTo(cost2);
         });
         // Each element is a path from start to a given node.
-        // A path's “priority” in the queue is the total cost of that path.
+        // A path's 'priority' in the queue is the total cost of that path.
         // Nodes for which no path is known yet are not in the queue.
 
         // finished = set of nodes for which we know the minimum-cost path from start.

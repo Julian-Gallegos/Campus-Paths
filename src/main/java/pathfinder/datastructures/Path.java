@@ -212,7 +212,7 @@ public class Path<E> implements Iterable<Path<E>.Segment> {
   /**
    * Segment represents a single segment as part of a longer, more complex path between generic type points.
    * Segments are immutable parts of a larger path that cannot be instantiated directly, and
-   * are created as part of larger paths by calling {@link Path#extend(E, double)}.
+   * are created as part of larger paths by calling Path.
    */
   public class Segment {
 
