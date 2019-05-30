@@ -20,7 +20,7 @@ class MainContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      size: 2,
+      size: 3,
       edges: ""
     }
   }
@@ -30,14 +30,19 @@ class MainContainer extends Component {
     return (
       <div>
         <GridSizePicker value={this.state.size} onChange={(e) => {
-            this.setState({size: e.target.value});
-            //this.setState({size: });
-          console.log(this);
+            if (e.target.value < 0) {
+                e.target.value = 0;
+                alert("cannot set size below 0");
+            }
+            if (e.target.value > 300) {
+                e.target.value = 300;
+                alert("cannot set size above 300");
+            }
+            this.setState({size: Number(e.target.value)});
         }} />
-        <Grid size={this.state.size} width={gridSize} height={gridSize} />
+        <Grid size={this.state.size} edges={this.state.edges} width={gridSize} height={gridSize} />
         <EdgeList value={this.state.edges} rows={5} onChange={(e) => {
-            this.setState({edges: e.target.value});
-            console.log(this);
+            this.setState({edges: String(e.target.value)});
         }} />
       </div>
     );

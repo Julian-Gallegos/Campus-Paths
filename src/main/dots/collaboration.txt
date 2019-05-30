@@ -1,0 +1,4 @@
+John McMahon:
+Referred him to some websites I found useful for understanding setState.
+Ziggie Rai:
+Asked each other simple JS questions like "how do arrays work in JS again?"

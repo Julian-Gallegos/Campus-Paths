@@ -29,6 +29,35 @@ class Grid extends Component {
     this.redraw()
   }
 
+  drawLines() {
+    let ctx = this.canvasReference.current.getContext('2d');
+    let strArr = this.props.edges.split("\n");  // Split edges by newlines
+    for(let i = 0; i < strArr.length; i++) {
+      let lineArr = strArr[i].split(" ");  // Split each line by spaces
+
+      // If the split line does not contain exactly 3 strings, do not draw it.
+      if (lineArr.length === 3) {
+
+        // Split the "x1,y1" and "x2,y2" strings to "x1" "y1" and "x2" "y2"
+        let coord1 = lineArr[0].split(",");
+        let coord2 = lineArr[1].split(",");
+        if (coord1.length === 2 && coord2.length === 2 &&
+            -1 < coord1[0] < this.props.size &&
+            -1 < coord1[1] < this.props.size &&
+            -1 < coord2[0] < this.props.size &&
+            -1 < coord2[1] < this.props.size) {  // check if invalid input
+          let scalar = (this.props.width) / (this.props.size + 1);
+          ctx.beginPath();
+          ctx.lineWidth = "1";
+          ctx.moveTo((Number(coord1[0]) + 1) * scalar, (Number(coord1[1]) + 1) * scalar);
+          ctx.lineTo((Number(coord2[0]) + 1) * scalar, (Number(coord2[1]) + 1) * scalar);
+          ctx.strokeStyle = lineArr[2];
+          ctx.stroke();
+        }
+      }
+    }
+  };
+
   redraw = () => {
     let ctx = this.canvasReference.current.getContext('2d');
     ctx.clearRect(0, 0, this.props.width, this.props.height);
@@ -39,28 +68,22 @@ class Grid extends Component {
       coordinates.forEach(coordinate => {
         this.drawCircle(ctx, coordinate);
       });
-    }
+    };
     background.src = "http://localhost:3000/image.jpg"
   };
 
   getCoordinates = () => {
 
-    let arr = arr[whatever];
-    for (let x = 400/(size+1); x < width; x += 400/(size+1)) {
-      for (let y = x; y < width; y += 400/(size+1)) {
-        arr.add([x, y]);
+    let arr = [];
+    for (let x = 1; x <= this.props.size; x++) {
+      for (let y = 1; y <= this.props.size; y++) {
+        let y1 = y * (this.props.width)/(this.props.size+1);
+        let x1 = x * (this.props.width)/(this.props.size+1);
+        arr.push([x1, y1]);
       }
     }
 
-    return arr;  //[
-        // Something like 400/(size+1)
-        // left side seems to be 0, and top also seems to be 0
-        // So for each node, add previous node in whatever x,y combo and add (size+1) / 400
-
-      //[100, 100], [100, 200], [100, 300],
-      //[200, 100], [200, 200], [200, 300],
-      //[300, 100], [300, 200], [300, 300]
-    //];
+    return arr;
   };
 
   drawCircle = (ctx, coordinate) => {
@@ -74,8 +97,12 @@ class Grid extends Component {
       <div id="canvas-div">
         <canvas ref={this.canvasReference} width={this.props.width} height={this.props.height} />
         <div className="center-text">Current Grid Size: {this.props.size}</div>
-        <Button color="primary" onClick={() => { console.log('onClick'); }} value="Draw" />
-        <Button color="secondary" onClick={() => { console.log('onClick'); }} value="Clear" />
+        <Button color="primary" onClick={() => {  // draw
+          this.drawLines();
+        }} value="Draw" />
+        <Button color="secondary" onClick={() => {  // clear
+          this.redraw();
+        }} value="Clear" />
       </div>
     );
   }
