@@ -44,11 +44,23 @@ class Grid extends Component {
   };
 
   getCoordinates = () => {
-    return [
-      [100, 100], [100, 200], [100, 300],
-      [200, 100], [200, 200], [200, 300],
-      [300, 100], [300, 200], [300, 300]
-    ];
+
+    let arr = arr[whatever];
+    for (let x = (size+1)/400; x < width; x += (size+1)/400) {
+      for (let y = x; y < width; y += (size+1)/400) {
+        arr.add([x, y]);
+      }
+    }
+
+    return arr;  //[
+        // Something like (size+1) / 400
+        // left side seems to be 0, and top also seems to be 0
+        // So for each node, add previous node in whatever x,y combo and add (size+1) / 400
+
+      //[100, 100], [100, 200], [100, 300],
+      //[200, 100], [200, 200], [200, 300],
+      //[300, 100], [300, 200], [300, 300]
+    //];
   };
 
   drawCircle = (ctx, coordinate) => {
@@ -61,7 +73,7 @@ class Grid extends Component {
     return (
       <div id="canvas-div">
         <canvas ref={this.canvasReference} width={this.props.width} height={this.props.height} />
-        <div className="center-text">Current Grid Size: 3</div>
+        <div className="center-text">Current Grid Size: {this.props.size}</div>
         <Button color="primary" onClick={() => { console.log('onClick'); }} value="Draw" />
         <Button color="secondary" onClick={() => { console.log('onClick'); }} value="Clear" />
       </div>
