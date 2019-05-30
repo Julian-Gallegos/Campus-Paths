@@ -46,14 +46,14 @@ class Grid extends Component {
   getCoordinates = () => {
 
     let arr = arr[whatever];
-    for (let x = (size+1)/400; x < width; x += (size+1)/400) {
-      for (let y = x; y < width; y += (size+1)/400) {
+    for (let x = 400/(size+1); x < width; x += 400/(size+1)) {
+      for (let y = x; y < width; y += 400/(size+1)) {
         arr.add([x, y]);
       }
     }
 
     return arr;  //[
-        // Something like (size+1) / 400
+        // Something like 400/(size+1)
         // left side seems to be 0, and top also seems to be 0
         // So for each node, add previous node in whatever x,y combo and add (size+1) / 400
 
