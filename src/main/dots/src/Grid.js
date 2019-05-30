@@ -40,7 +40,7 @@ class Grid extends Component {
         this.drawCircle(ctx, coordinate);
       });
     }
-    // background.src = "???"
+    background.src = "http://localhost:3000/image.jpg"
   };
 
   getCoordinates = () => {

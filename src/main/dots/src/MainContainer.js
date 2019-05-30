@@ -25,11 +25,15 @@ class MainContainer extends Component {
     }
   }
 
+
+
   render() {
     let gridSize = 400;
     return (
       <div>
-        <GridSizePicker value={3} onChange={() => { console.log('onChange'); }} />
+        <GridSizePicker value={this.state.size} onChange={() => {
+          console.log('onChange');
+        }} />
         <Grid size={this.state.size} width={gridSize} height={gridSize} />
         <EdgeList value={this.state.edges} rows={5} />
       </div>

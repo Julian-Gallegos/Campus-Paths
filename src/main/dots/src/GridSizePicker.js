@@ -15,6 +15,7 @@ import TextField from '@material-ui/core/TextField';
 import React, {Component} from 'react';
 
 class GridSizePicker extends Component {
+
   render() {
     return (
       <div className="center-text">
