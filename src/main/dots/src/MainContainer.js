@@ -38,6 +38,10 @@ class MainContainer extends Component {
                 e.target.value = 300;
                 alert("cannot set size above 300");
             }
+            if (!Number.isInteger(Number(e.target.value))) {
+                e.target.value = 0;
+                alert("cannot set size to a non-integer");
+            }
             this.setState({size: Number(e.target.value)});
         }} />
         <Grid size={this.state.size} edges={this.state.edges} width={gridSize} height={gridSize} />

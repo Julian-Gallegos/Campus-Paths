@@ -33,26 +33,28 @@ class Grid extends Component {
     let ctx = this.canvasReference.current.getContext('2d');
     let strArr = this.props.edges.split("\n");  // Split edges by newlines
     for(let i = 0; i < strArr.length; i++) {
-      let lineArr = strArr[i].split(" ");  // Split each line by spaces
+      if (!strArr[i].includes(".")) {
+        let lineArr = strArr[i].split(" ");  // Split each line by spaces
 
-      // If the split line does not contain exactly 3 strings, do not draw it.
-      if (lineArr.length === 3) {
+        // If the split line does not contain exactly 3 strings, do not draw it.
+        if (lineArr.length === 3) {
 
-        // Split the "x1,y1" and "x2,y2" strings to "x1" "y1" and "x2" "y2"
-        let coord1 = lineArr[0].split(",");
-        let coord2 = lineArr[1].split(",");
-        if (coord1.length === 2 && coord2.length === 2 &&
-            -1 < coord1[0] < this.props.size &&
-            -1 < coord1[1] < this.props.size &&
-            -1 < coord2[0] < this.props.size &&
-            -1 < coord2[1] < this.props.size) {  // check if invalid input
-          let scalar = (this.props.width) / (this.props.size + 1);
-          ctx.beginPath();
-          ctx.lineWidth = "1";
-          ctx.moveTo((Number(coord1[0]) + 1) * scalar, (Number(coord1[1]) + 1) * scalar);
-          ctx.lineTo((Number(coord2[0]) + 1) * scalar, (Number(coord2[1]) + 1) * scalar);
-          ctx.strokeStyle = lineArr[2];
-          ctx.stroke();
+          // Split the "x1,y1" and "x2,y2" strings to "x1" "y1" and "x2" "y2"
+          let coord1 = lineArr[0].split(",");
+          let coord2 = lineArr[1].split(",");
+          if (coord1.length === 2 && coord2.length === 2 &&
+              -1 < coord1[0] < this.props.size &&
+              -1 < coord1[1] < this.props.size &&
+              -1 < coord2[0] < this.props.size &&
+              -1 < coord2[1] < this.props.size) {  // check if invalid input
+            let scalar = (this.props.width) / (this.props.size + 1);
+            ctx.beginPath();
+            ctx.lineWidth = "1";
+            ctx.moveTo((Number(coord1[0]) + 1) * scalar, (Number(coord1[1]) + 1) * scalar);
+            ctx.lineTo((Number(coord2[0]) + 1) * scalar, (Number(coord2[1]) + 1) * scalar);
+            ctx.strokeStyle = lineArr[2];
+            ctx.stroke();
+          }
         }
       }
     }
