@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=Oswald&display=swap');
+
+
+.title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 20pt;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.Selections {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.dropdown {
+    margin: 20px;
+}

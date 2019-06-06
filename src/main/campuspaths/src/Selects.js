@@ -6,9 +6,16 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 
 class Selects extends Component {
 
-  constructor(props) {
-    super(props);
+  createTable(){
+      let table = [];
+      let buildings = this.props.buildings;
+      for (let key in buildings){
 
+          if (buildings.hasOwnProperty(key)) {
+            table.push(<MenuItem value={key}>{buildings[key]}</MenuItem>);
+          }
+      }
+      return table;
   }
 
   render() {
@@ -22,11 +29,9 @@ class Selects extends Component {
           autoWidth={true}
         >
           <MenuItem value="">
-            <em>None</em>
+              <em>None</em>
           </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+            {this.createTable()}
         </Select>
         <FormHelperText>{this.props.helperText}</FormHelperText>
       </div>

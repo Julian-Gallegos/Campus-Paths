@@ -12,7 +12,7 @@ and canvas.height in Map.js, this 90% helps keep the canvas from being too but,
 but not setting the height means the image keeps the correct aspect ratio.
  */
 canvas {
-    width: 90%;
+    width: 70%;
 }
 
 /*
@@ -21,4 +21,16 @@ and centers whatever is inside it (like the canvas).
  */
 .canvasHolder {
     text-align: center;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.innerButton {
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
 }

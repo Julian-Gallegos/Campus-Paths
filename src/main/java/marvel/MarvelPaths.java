@@ -136,7 +136,6 @@ public class MarvelPaths {
             }
         }
         console.close();
-        return;
 
     }
 
