@@ -10,6 +10,9 @@ Ziggie Rai:
     He told me about flexbox, a CSS tool that makes ui formatting easier for me.
     Talked about the Material UI inputs that might be useful for this project, agreeing that selects seemed like the
     way to go.
+John McMahon:
+    I helped him figure out how to use component callbacks as a tip to figuring out how to reset input fields like
+    selectors.
 
 
 
